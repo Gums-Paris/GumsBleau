@@ -20,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -146,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
         };
         manipsInfo.getDateSortie().observe(MainActivity.this, dateObserver);
 
+// créer fichier latlon.gpx pour les besoins de Iphigénie (août 2019)
+        if(!AuxGPX.faitFichierGPX()) flagGPX = false;
+
 // enfin, les deux boutons
 
         boutonPark.setOnClickListener(new View.OnClickListener() {
@@ -173,17 +178,35 @@ public class MainActivity extends AppCompatActivity {
                 String appli = mesPrefs.getString(APPLICARTO, getString(R.string.ifi));
                 String laR = mesPrefs.getString(LATRDV, null);
                 String LoR = mesPrefs.getString(LONRDV, null);
+                String laP = mesPrefs.getString(LATPARK,null);
+                String LoP = mesPrefs.getString(LONPARK,null);
                 Uri cartoIntentUri = null;
                 Intent cartoIntent = null;
-                cartoIntentUri = Uri.parse("geo:" + laR + "," + LoR);
-                cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
-                Log.i("GUMSBLO", "Intent= " + cartoIntent.toString());
-                cartoIntent.setPackage(appli);
-                if (cartoIntent.resolveActivity(getPackageManager()) != null) {
-                    Log.i("GUMSBLO", "6 lancement carto");
-                    startActivity(cartoIntent);
-                } else {
-                    Toast.makeText(MainActivity.this, "Appli de carte topo non disponible", Toast.LENGTH_LONG).show();
+                if ("com.iphigenie".equals(appli)) {
+                    if (flagGPX && AuxGPX.faitURI(laR,LoR,laP,LoP) != null) {
+                        cartoIntentUri = AuxGPX.faitURI(laR, LoR, laP, LoP);
+                        Log.i("GUMSBLO", "4 URI carto= ");
+                        cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
+                        cartoIntent.setPackage(appli);
+                        cartoIntent.setFlags(FLAG_GRANT_READ_URI_PERMISSION);
+                        Log.i("GUMSBLO", "5 Intent carto= "+cartoIntent.toString());
+                    }else{
+                        Toast.makeText(MainActivity.this, "Cette appli ne peut pas être utilisée", Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    cartoIntentUri = Uri.parse("geo:" + laR + "," + LoR);
+                    cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
+                    cartoIntent.setPackage(appli);
+                }
+                if (cartoIntent != null) {
+                    if (cartoIntent.resolveActivity(getPackageManager()) != null) {
+                        Log.i("GUMSBLO", "6 lancement carto");
+                        startActivity(cartoIntent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Appli de carte topo non disponible", Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    Toast.makeText(MainActivity.this, "Signaler problème aux développeurs", Toast.LENGTH_LONG).show();
                 }
             }
         });
