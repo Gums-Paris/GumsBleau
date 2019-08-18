@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">GumsBleau</string>
+    <string name="action_settings">Préférences</string>
+    <string name="help">Aide</string>
+    <string name="serveur_gums">https://v2.gumsparis.asso.fr/index.php?option=com_gblo&amp;view=prochsortie&amp;format=json</string>
+    <string name="lieu_sortie">Lieu de la sortie</string>
+    <string name="date_sortie">Date de la sortie</string>
+    <string name="iti_park">&lt;b&gt;Itinéraire parking&lt;/b&gt;&lt;br /&gt;</string>
+    <string name="note_park">Notice parking</string>
+    <string name="nav_park">Parking</string>
+    <string name="info_nav">Cliquez PARKING pour qu\'une appli de guidage vous y conduise (en voiture)</string>
+    <string name="iti_rdv">&lt;b&gt;Itinéraire rendez-vous&lt;/b&gt;&lt;br /&gt;</string>
+    <string name="note_rdv">Notice rendez-vous</string>
+    <string name="lieu_rdv">Rendez-vous</string>
+    <string name="info_rdv">Si vous avez une appli de carte topographique cliquez RENDEZ-VOUS. Cela ouvrira une carte IGN
+        (abonnement payant nécessaire) centrée sur le rendez-vous.</string>
+    <string name="pas_contact">Je ne peux rien faire ! Je n\'ai pas eu le contact avec gumsparis.asso.fr</string>
+    <string name="pas_infos">Je ne peux rien faire ! Je n\'ai pas reçu d\'informations de la part de gumsparis.asso.fr</string>
+    <string name="infos_partielles">Infos incomplètes ou mal formatées. Il y aura des problèmes d\'affichage ou de fonctionnalités</string>
+    <string name="title_activity_aide">Aide</string>
+    <string name="helptext">&lt;b&gt;Comment ça marche&lt;/b&gt;&lt;br /&gt;\t Au démarrage GumsBleau affiche les descriptifs d\'itinéraires pour rejoindre le parking puis le
+        rendez-vous de la sortie d\'escalade dominicale du GUMS de Paris. &lt;br /&gt;\tDeux boutons sont aussi disponibles pour obtenir un guidage jusqu\'au
+        parking par une appli de navigation (par défaut GoogleAppsNav) et pour afficher la position du rendez-vous sur une carte IGN (par
+        défaut Iphigenie).&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Bien noter que :&lt;/b&gt;&lt;br /&gt;\t GumsBleau a besoin d\'un accès Internet pour se procurer les informations auprès de www.gumsparis.asso.fr puis il
+        les sauvegarde : elles restent disponibles jusqu\'au lendemain du jour de la sortie sans nécessiter de nouvelle connexion à Internet.
+        &lt;br /&gt;\t Cependant les applis de navigation et de cartographie auront généralement besoin d\'un accès à internet pour fonctionner.&lt;br /&gt;&lt;br /&gt;
+        &lt;b&gt;Choix d\'applis :&lt;/b&gt;&lt;br /&gt;\t L\'entrée de menu &lt;b&gt;Préférences&lt;/b&gt; permet de sélectionner d\'autres applis de navigation et de cartographie que celles choisies par défaut.
+        &lt;br /&gt;\t Noter que GumsBleau ne se chargera pas d\'installer ces applis à votre place !&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Contact&lt;/b&gt;&lt;br /&gt;
+        Pour toute question, remarque ou suggestion écrire à &lt;a href=\"mailto:appli.gumsbleau\@gumsparis.asso.fr\"&gt;
+        appli.gumsbleau au Gums de Paris&lt;/a&gt;</string>
+    <string name="choixnav">&lt;b&gt;Choix appli de navigation vers le parking :&lt;/b&gt; &lt;br /&gt;Par défaut GumsBleau utilise GoogleMaps Nav. Cliquer pour en choisir une autre.</string>
+    <string name="choixcarto">&lt;b&gt;Choix appli de carte topographique pour localiser le rendez-vous :&lt;/b&gt; &lt;br /&gt;Par défaut GumsBleau utilise Iphigénie. Cliquer
+        pour changer. Toutes ces applis peuvent montrer la carte topographique IGN (fond TOP25) si vous possédez un abonnement. &lt;br /&gt;Il faut souscrire
+        cet abonnement à travers l\'appli ; il n\'est pas transférable entre applis.</string>
+    <string name="title_activity_choix_applis">ChoixApplis</string>
+    <string name="gmp">com.google.android.apps.maps</string>
+    <string name="waz">com.waze</string>
+    <string name="her">com.here.app.maps</string>
+    <string name="ifi">com.iphigenie</string>
+    <string name="vrg">com.augmentra.viewranger.android</string>
+    <string name="mtr">com.frogsparks.mytrails</string>
+    <string name="sauvpref">OK</string>
+</resources>

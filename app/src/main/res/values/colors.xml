@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorItiPark">#F7FFC4</color>
+    <color name="colorItiRdV">#FFF2DE</color>
+    <color name="rougeGums">#AA0000</color>
+    <color name="barreMenu">#992222</color>
+</resources>
