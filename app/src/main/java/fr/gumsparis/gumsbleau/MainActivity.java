@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         final Observer<String> flagObserver = new Observer<String>() {
             @Override
             public void onChanged(String newFlag) {
-//                patience.setVisibility(View.GONE);
                 if (!newFlag.equals("0")) {
                     alerte(newFlag);
                 }
