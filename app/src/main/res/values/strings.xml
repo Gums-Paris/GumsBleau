@@ -30,8 +30,9 @@
         appli.gumsbleau au Gums de Paris&lt;/a&gt;</string>
     <string name="choixnav">&lt;b&gt;Choix appli de navigation vers le parking :&lt;/b&gt; &lt;br /&gt;Par défaut GumsBleau utilise GoogleMaps Nav. Cliquer pour en choisir une autre.</string>
     <string name="choixcarto">&lt;b&gt;Choix appli de carte topographique pour localiser le rendez-vous :&lt;/b&gt; &lt;br /&gt;Par défaut GumsBleau utilise Iphigénie. Cliquer
-        pour changer. Toutes ces applis peuvent montrer la carte topographique IGN (fond TOP25) si vous possédez un abonnement. &lt;br /&gt;Il faut souscrire
-        cet abonnement à travers l\'appli ; il n\'est pas transférable entre applis.</string>
+        pour changer. Toutes ces applis sauf OruxMaps peuvent montrer la carte topographique IGN (fond TOP25) si vous possédez un abonnement. &lt;br /&gt;Il faut souscrire
+        cet abonnement à travers l\'appli ; il n\'est pas transférable entre applis.&lt;br /&gt;OruxMaps n\'a pas d\'accès aux cartes IGN en ligne. Il est possible de lui ajouter des cartes
+        fabriquées par l\'utilisateur en numérisant une carte sur papier. C\'est une procédure laborieuse.</string>
     <string name="title_activity_choix_applis">ChoixApplis</string>
     <string name="gmp">com.google.android.apps.maps</string>
     <string name="waz">com.waze</string>
@@ -39,5 +40,6 @@
     <string name="ifi">com.iphigenie</string>
     <string name="vrg">com.augmentra.viewranger.android</string>
     <string name="mtr">com.frogsparks.mytrails</string>
+    <string name="orx">com.orux.oruxmaps</string>
     <string name="sauvpref">OK</string>
 </resources>

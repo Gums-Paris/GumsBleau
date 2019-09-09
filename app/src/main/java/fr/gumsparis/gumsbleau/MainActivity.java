@@ -156,15 +156,15 @@ public class MainActivity extends AppCompatActivity {
         boutonPark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* pour envoi intent à l'appli nav : itinéraire jusqu'au parking*/
-                String appli = mesPrefs.getString(APPLINAV, getString(R.string.gmp));
+        // pour envoi intent à l'appli nav : itinéraire jusqu'au parking
                 String laP = mesPrefs.getString(LATPARK, null);
                 String LoP = mesPrefs.getString(LONPARK, null);
                 Uri gmmIntentUri = Uri.parse("google.navigation:q=" + laP + "," + LoP);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage(appli);
+                String titre = "Choisir une appli de guidage routier";
+                Intent chooser = Intent.createChooser(mapIntent, titre);
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(mapIntent);
+                    startActivity(chooser);
                 } else {
                     Toast.makeText(MainActivity.this, "Appli de navigation non disponible", Toast.LENGTH_LONG).show();
                 }
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         boutonRdV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* pour envoi intent à l'appli carto : position du rendez-vous*/
+         // pour envoi intent à l'appli carto : position du rendez-vous
                 String appli = mesPrefs.getString(APPLICARTO, getString(R.string.ifi));
                 String laR = mesPrefs.getString(LATRDV, null);
                 String LoR = mesPrefs.getString(LONRDV, null);
