@@ -16,7 +16,7 @@ import java.util.Locale;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 import static fr.gumsparis.gumsbleau.MainActivity.LIEU;
-import static fr.gumsparis.gumsbleau.MainActivity.DATE;
+import static fr.gumsparis.gumsbleau.MainActivity.DATERV;
 import static fr.gumsparis.gumsbleau.MainActivity.ITIPARK;
 import static fr.gumsparis.gumsbleau.MainActivity.ITIRDV;
 import static fr.gumsparis.gumsbleau.MainActivity.FLAG;
@@ -27,8 +27,6 @@ public class ModelBleauInfo extends AndroidViewModel {
     static MutableLiveData<String>flagInfo = new MutableLiveData<>();
     static MutableLiveData<String>lieuSortie = new MutableLiveData<>();
     static MutableLiveData<String>dateSortie = new MutableLiveData<>();
-    private static final String urlContact ="https://v2.gumsparis.asso.fr/index.php?option=com_gblo&view=prochsortie&format=json";
-
 
     // Constructeur du modèle ; récupère les infos auprès de gumsparis ou des Shared Preferences
     public ModelBleauInfo(@NonNull Application application) {
@@ -37,11 +35,22 @@ public class ModelBleauInfo extends AndroidViewModel {
 // création de l'instance de MyHelper qui va stocker le contexte de l'application. Cela permettra de récupérer le context et donc
 // en particulier les préférences de n'importe où en récupérant l'instance sans avoir à passer de contexte
         SharedPreferences mesPrefs = MyHelper.getInstance(application.getApplicationContext()).recupPrefs();
+        SharedPreferences.Editor editeur = mesPrefs.edit();
+        boolean choixSortie = false;
 
-// s'il n'y a pas d'info ou si l'info est périmée on va la chercher sur gumsparis, sinon on la sort des SharedPrefs
-        if (mesPrefs.getString(DATE,null) == null || datePast(mesPrefs.getString(DATE,null))) {
-            if (isNetworkReachable()) {
-                new PrendreInfosGums().execute(urlContact);
+// s'il y a eu choix de sortie ou n'y a pas d'info ou si l'info est périmée on va la chercher sur gumsparis,
+// sinon on la sort des SharedPrefs
+        String urlContact = UrlsGblo.SORTIE.getUrl();
+        if ((mesPrefs.getString("sortiechoisie", null)!=null)&&!(mesPrefs.getString("sortiechoisie", null)).isEmpty()) {
+            choixSortie = true;
+            urlContact = urlContact + "&idarticle=" + mesPrefs.getString("sortiechoisie", null);
+            editeur.putString("sortiechoisie", "");
+            editeur.apply();
+            Log.i("GUMSBLO", "sortie choisie "+mesPrefs.getString("sortiechoisie", null));
+        }
+        if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 0)) {
+            if (Aux.isNetworkReachable()) {
+                new PrendreInfosSortie().execute(urlContact);
             }
         } else {
             getInfosFromPrefs();
@@ -74,40 +83,12 @@ public class ModelBleauInfo extends AndroidViewModel {
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         String[] iti = new String[2];
         lieuSortie.setValue(mesPrefs.getString(LIEU, null));
-        dateSortie.setValue(mesPrefs.getString(DATE, null));
+        dateSortie.setValue(mesPrefs.getString(DATERV, null));
         iti[0] = mesPrefs.getString(ITIPARK, null);
         iti[1] = mesPrefs.getString(ITIRDV, null);
         infosSortie.setValue(iti);
         flagInfo.setValue(mesPrefs.getString(FLAG, null));
     }
 
-// teste la disponibilité d'un accès réseau ; noter que NetworkInfo est déprécié dans l'API 29
-    private boolean isNetworkReachable() {
-        ConnectivityManager cM = (ConnectivityManager) getApplication().getApplicationContext().getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cM.getActiveNetworkInfo();
-        if(networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected()) {
-            Log.i("GUMSBLO", "nous sommes connectés");
-            return true;
-        }
-        return false;
-    }
-
-// return true si uneDate est antérieure à la date du jour
-    private boolean datePast(String uneDate) {
-        Date date1 = null;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            date1 = sdf.parse(uneDate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Date date2 = Calendar.getInstance().getTime();
-        try {
-            return (date2.compareTo(date1) >= 0);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
 
 }

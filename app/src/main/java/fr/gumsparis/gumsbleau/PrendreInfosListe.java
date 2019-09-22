@@ -1,0 +1,35 @@
+package fr.gumsparis.gumsbleau;
+
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import static fr.gumsparis.gumsbleau.MainActivity.DATELISTE;
+
+public class PrendreInfosListe extends PrendreInfosGums {
+
+    @Override
+    protected void onPostExecute (String result) {
+        Log.i("GUMSBLO", "dans onPostExecute de liste");
+        SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
+        SharedPreferences.Editor  editeur = mesPrefs.edit();
+        if (result.equals("netOUT")) {
+            ModelBleauListe.flagListe.setValue(false);
+        } else {
+            editeur.putString("jsonListe", result);
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date today = Calendar.getInstance().getTime();
+                editeur.putString(DATELISTE, sdf.format(today));
+                editeur.apply();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Aux.getListe(result);
+        }
+    }
+}

@@ -26,6 +26,7 @@ import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 public class MainActivity extends AppCompatActivity {
 
     ModelBleauInfo manipsInfo = null;
+    static ModelBleauListe manipsListe = null;
     TextView lieuSortie = null;
     TextView dateSortie = null;
     TextView parking = null;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     final static String PREF_FILE = "mesInfos";
     ProgressBar patience = null;
     static final String LIEU = "title";
-    static final String DATE = "dates";
+    static final String DATERV = "dates";
     static final String ITIPARK = "itiPark";
     static final String LATPARK = "latPark";
     static final String LONPARK = "lonPark";
@@ -48,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
     static final String FLAG = "flag";
     static final String APPLINAV = "appnav";
     static final String APPLICARTO = "appcarto";
+    static final String DATELISTE = "dateliste";
     boolean flagGPX = true;
+    String sortieChoisie = "";
 
 
     @Override
@@ -70,17 +73,25 @@ public class MainActivity extends AppCompatActivity {
         boutonRdV = findViewById(R.id.buttonrdv);
         patience = findViewById(R.id.indeterminateBar);
 
-// Mettre les applis par défaut pour nav et carto dans les préférences s'il n'y en a pas
+// Mettre l'appli par défaut pour carto dans les préférences s'il n'y en a pas
         mesPrefs = getApplicationContext().getSharedPreferences(PREF_FILE, MODE_PRIVATE);
         SharedPreferences.Editor editeur = mesPrefs.edit();
-        if (mesPrefs.getString(APPLINAV, null) == null) {
-            editeur.putString(APPLINAV, getString(R.string.gmp));
-            editeur.apply();
-        }
         if (mesPrefs.getString(APPLICARTO, null) == null) {
             editeur.putString(APPLICARTO, getString(R.string.ifi));
             editeur.apply();
         }
+
+// récup intent if any pour choix de sortie
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.hasExtra("sortie")){
+                sortieChoisie = intent.getStringExtra("sortie");
+                editeur.putString("sortiechoisie", sortieChoisie);
+                editeur.apply();
+            }
+        }
+//        editeur.putString("sortiechoisie", "119");
+//        editeur.apply();
 
 // patience est un cercle qui tourne jusqu'à disponibilité des infos pour faire patienter le client...
         patience.setVisibility(View.VISIBLE);
@@ -210,6 +221,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+// le model qui gère les données de la liste de sorties
+//        manipsListe = ViewModelProviders.of(this).get(ModelBleauListe.class);
+
     }
 
 //affichage dialogue d'alerte si problème de disponibilité des infos
@@ -250,6 +265,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent choisirPrefs = new Intent(MainActivity.this, ChoixApplis.class);
             startActivity(choisirPrefs);
+            return true;
+        }
+        if (id == R.id.choix_sortie) {
+            Intent choisirSortie = new Intent(MainActivity.this, ChoixSortie.class);
+            startActivity(choisirSortie);
             return true;
         }
         return super.onOptionsItemSelected(item);

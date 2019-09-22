@@ -15,6 +15,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name="fr.gumsparis.gumsbleau.ChoixSortie"
+            android:label="@string/title_activity_choix_sortie"
+            android:parentActivityName="fr.gumsparis.gumsbleau.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fr.gumsparis.gumsbleau.MainActivity" />
+        </activity>
+        <activity
             android:name="fr.gumsparis.gumsbleau.ChoixApplis"
             android:label="@string/title_activity_choix_applis"
             android:parentActivityName="fr.gumsparis.gumsbleau.MainActivity"

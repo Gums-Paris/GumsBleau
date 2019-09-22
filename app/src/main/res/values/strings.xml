@@ -42,4 +42,6 @@
     <string name="mtr">com.frogsparks.mytrails</string>
     <string name="orx">com.orux.oruxmaps</string>
     <string name="sauvpref">OK</string>
+    <string name="title_activity_choix_sortie">Choisir une sortie</string>
+    <string name="choixsortie">Choisir une sortie</string>
 </resources>
