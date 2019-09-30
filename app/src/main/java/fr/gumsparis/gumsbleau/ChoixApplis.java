@@ -1,5 +1,6 @@
 package fr.gumsparis.gumsbleau;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -21,6 +23,8 @@ public class ChoixApplis extends AppCompatActivity {
 
 // pour sélectionner l'appli de  carte topographique pour le RdV et stocker le nom dans les préférences
 
+    TextView choixnav = null;
+    CheckBox casenav = null;
     TextView choixcarto = null;
     RadioGroup rgCarto = null;
     RadioButton ifi = null;
@@ -40,6 +44,8 @@ public class ChoixApplis extends AppCompatActivity {
         final SharedPreferences.Editor  editeur = mesPrefs.edit();
         String applicarto = mesPrefs.getString(APPLICARTO, getString(R.string.ifi));
 
+        choixnav = findViewById(R.id.choixnav);
+        casenav = findViewById(R.id.chkChooser);
         choixcarto = findViewById(R.id.choixcarto);
         rgCarto = findViewById(R.id.groupcarto);
         ifi = findViewById(R.id.iphi);
@@ -48,6 +54,22 @@ public class ChoixApplis extends AppCompatActivity {
         orx = findViewById(R.id.orux);
         terminer = findViewById(R.id.buttonfin);
 
+// choix du comportement pour le choix de l'applide navigation
+        choixnav.setText(Html.fromHtml(getString(R.string.choixnav)));
+        editeur.putString("chooser", "no");
+        editeur.apply();
+        casenav.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    editeur.putString("chooser", "yes");
+                    editeur.apply();
+                }
+            }
+        });
+
+// choix d'une appli pour la cartographie autour du rendez-vous
         choixcarto.setText(Html.fromHtml(getString(R.string.choixcarto)));
 
         if(getString(R.string.ifi).equals(applicarto)) {ifi.setChecked(true);}

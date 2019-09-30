@@ -29,7 +29,7 @@ class Aux {
         return false;
     }
 
-    // return true si uneDate est antérieure à la date du jour diminuée de ageMax (en jour)
+    // return true si uneDate est antérieure à la date du jour diminuée de ageMax (en jours)
     static boolean datePast(String uneDate, int ageMax) {
         Date date1 = null;
         try {
@@ -49,6 +49,7 @@ class Aux {
         return true;
     }
 
+ // pour remplir les LiveData nomLieu et idArticle en décodant le json jsListe contenant la liste de sorties
     static void getListe (String jsListe) {
         ArrayList<String> listeLieu = new ArrayList<>();
         ArrayList<String> listeArticle = new ArrayList<>();

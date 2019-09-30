@@ -17,6 +17,11 @@ import static fr.gumsparis.gumsbleau.MainActivity.LONPARK;
 import static fr.gumsparis.gumsbleau.MainActivity.LONRDV;
 
 public class PrendreInfosSortie extends PrendreInfosGums {
+
+// cette classe rajoute le onPostExecute pour la tâche asynchrone de récupération de l'info de la sortie auprès de
+// gumsparis. On range les infos dans les prefs et on nourrit les LiveData.
+
+    @Override
     protected void onPostExecute (String result) {
         Log.i("GUMSBLO", "dans postexecute de sortie");
         String[] itis = new String[2];

@@ -21,10 +21,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<String> mArticlesset;
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        // ici se trouve l'info pour pouvoir présenter l'un des items des données dans une vue spécifique
+// ici se trouve l'info pour pouvoir présenter l'un des items des données dans une vue spécifique
         TextView textView;
         final MyAdapter mAdapter;
-        // constructeur du ViewHolder pour initialiser la vue et installer l'adapteur
+// constructeur du ViewHolder pour initialiser la vue et installer l'adapteur
         MyViewHolder(View v, MyAdapter adapter){
             super(v);
             textView = v.findViewById(R.id.unlieu);
@@ -34,7 +34,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-            // pour donner la position de la vue portant l'item cliqué
+// pour donner la position de la vue portant l'item cliqué et envoyer la commande à MainActivity
             int mPosition = getLayoutPosition();
             String element = mArticlesset.get(mPosition);
             Log.i("GUMSBLO","idArticle = "+element);
@@ -54,7 +54,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         this.mArticlesset = newData;
         notifyDataSetChanged();
     }
-    // les 3 méthodes de l'adapteur : onCreateViewHolder, onBindViewHolder, getItemCount
+
+// les 3 méthodes de l'adapteur : onCreateViewHolder, onBindViewHolder, getItemCount
 
     @NonNull
     @Override

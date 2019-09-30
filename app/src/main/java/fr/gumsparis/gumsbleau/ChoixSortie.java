@@ -45,7 +45,7 @@ public class ChoixSortie extends AppCompatActivity {
         };
         manipsListe.getFlagListe().observe(this, flagObserver);
 
-    // puis l'observateur de la liste de lieus
+    // puis l'observateur de la liste de lieus, affecter la liste à l'adapteur et l'adapteur à la recyclerView
         final Observer<ArrayList<String>> listeLieuObserver = new Observer<ArrayList<String>>() {
             @Override
             public void onChanged(ArrayList<String> newListeLieu) {
@@ -58,7 +58,7 @@ public class ChoixSortie extends AppCompatActivity {
         };
         manipsListe.getListeLieux().observe(this, listeLieuObserver);
 
-    // puis l'observateur de la liste des id d'article
+    // puis l'observateur de la liste des id d'article et la confier à l'adapteur
         final Observer<ArrayList<String>> listeArticleObserver = new Observer<ArrayList<String>>() {
             @Override
             public void onChanged(ArrayList<String> newListeArticle) {
@@ -70,7 +70,9 @@ public class ChoixSortie extends AppCompatActivity {
         };
         manipsListe.getListeArticles().observe(this, listeArticleObserver);
 
-        // traiter ici le clic sur une sortie ?
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
     }
 }

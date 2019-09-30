@@ -58,7 +58,7 @@ public  class PrendreInfosGums extends AsyncTask<String,Void,String> {
 
     // pour ranger le résultat dans la LiveData et les Shared Preferences
     protected void onPostExecute (String result) {
-        // le traitement dépend de l'URL accédée
+        // le traitement dépend de l'URL accédée, il est défini dans les classes dérivées
     }
 
 }

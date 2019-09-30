@@ -12,6 +12,9 @@ import static fr.gumsparis.gumsbleau.MainActivity.DATELISTE;
 
 public class PrendreInfosListe extends PrendreInfosGums {
 
+// cette classe rajoute le onPostExecute pour la tâche asynchrone de récupération de la liste des sorties auprès de
+// gumsparis. On range le json dans les prefs puis on appelle getListe pour le décoder et nourrir les LiveData.
+
     @Override
     protected void onPostExecute (String result) {
         Log.i("GUMSBLO", "dans onPostExecute de liste");

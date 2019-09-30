@@ -73,9 +73,15 @@ public class MainActivity extends AppCompatActivity {
         boutonRdV = findViewById(R.id.buttonrdv);
         patience = findViewById(R.id.indeterminateBar);
 
-// Mettre l'appli par défaut pour carto dans les préférences s'il n'y en a pas
+// initialiser le paramètre de choix appli de navigation si nécessaire
         mesPrefs = getApplicationContext().getSharedPreferences(PREF_FILE, MODE_PRIVATE);
         SharedPreferences.Editor editeur = mesPrefs.edit();
+        if (mesPrefs.getString("chooser", null) == null) {
+            editeur.putString("chooser", "no");
+            editeur.apply();
+        }
+
+// Mettre l'appli par défaut pour carto dans les préférences s'il n'y en a pas
         if (mesPrefs.getString(APPLICARTO, null) == null) {
             editeur.putString(APPLICARTO, getString(R.string.ifi));
             editeur.apply();
@@ -90,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 editeur.apply();
             }
         }
-//        editeur.putString("sortiechoisie", "119");
-//        editeur.apply();
 
 // patience est un cercle qui tourne jusqu'à disponibilité des infos pour faire patienter le client...
         patience.setVisibility(View.VISIBLE);
@@ -167,16 +171,21 @@ public class MainActivity extends AppCompatActivity {
         boutonPark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-        // pour envoi intent à l'appli nav : itinéraire jusqu'au parking
+                // pour envoi intent à l'appli nav : itinéraire jusqu'au parking
                 String laP = mesPrefs.getString(LATPARK, null);
                 String LoP = mesPrefs.getString(LONPARK, null);
                 Uri gmmIntentUri = Uri.parse("google.navigation:q=" + laP + "," + LoP);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                String titre = "Choisir une appli de guidage routier";
-                Intent chooser = Intent.createChooser(mapIntent, titre);
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(chooser);
-                } else {
+                Toast.makeText(MainActivity.this, "choix  "+mesPrefs.getString("chooser", null), Toast.LENGTH_LONG).show();
+                if ("yes".equals(mesPrefs.getString("chooser", null))) {
+                    String titre = "Choisir une appli de guidage routier";
+                    Intent chooser = Intent.createChooser(mapIntent, titre);
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(chooser);
+                    }
+                }else if (mapIntent.resolveActivity(getPackageManager()) != null){
+                    startActivity(mapIntent);
+                }else{
                     Toast.makeText(MainActivity.this, "Appli de navigation non disponible", Toast.LENGTH_LONG).show();
                 }
             }
@@ -221,9 +230,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-// le model qui gère les données de la liste de sorties
-//        manipsListe = ViewModelProviders.of(this).get(ModelBleauListe.class);
 
     }
 
