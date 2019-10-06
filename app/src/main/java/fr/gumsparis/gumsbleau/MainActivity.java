@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 String LoP = mesPrefs.getString(LONPARK, null);
                 Uri gmmIntentUri = Uri.parse("google.navigation:q=" + laP + "," + LoP);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                Toast.makeText(MainActivity.this, "choix  "+mesPrefs.getString("chooser", null), Toast.LENGTH_LONG).show();
                 if ("yes".equals(mesPrefs.getString("chooser", null))) {
                     String titre = "Choisir une appli de guidage routier";
                     Intent chooser = Intent.createChooser(mapIntent, titre);
