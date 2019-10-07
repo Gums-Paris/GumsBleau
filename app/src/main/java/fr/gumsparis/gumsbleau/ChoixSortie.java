@@ -1,6 +1,8 @@
 package fr.gumsparis.gumsbleau;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,12 +21,15 @@ public class ChoixSortie extends AppCompatActivity {
     ArrayList<String> listeIdArticle = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerView.Adapter monAdapter;
+    ProgressBar attente = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_sortie);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        attente = findViewById(R.id.listIndeterminateBar);
+        attente.setVisibility(View.VISIBLE);
 
     // le model qui gère les données de la liste de sorties
         manipsListe = ViewModelProviders.of(this).get(ModelBleauListe.class);
@@ -49,6 +54,7 @@ public class ChoixSortie extends AppCompatActivity {
         final Observer<ArrayList<String>> listeLieuObserver = new Observer<ArrayList<String>>() {
             @Override
             public void onChanged(ArrayList<String> newListeLieu) {
+                attente.setVisibility(View.GONE);
                 if (newListeLieu != null) {
                     listeNomLieu = newListeLieu;
                     ((MyAdapter) monAdapter).setData(newListeLieu);
