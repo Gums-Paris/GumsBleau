@@ -18,4 +18,9 @@
         android:orderInCategory="3"
         android:title="@string/choixsortie"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/apropos"
+        android:orderInCategory="3"
+        android:title="@string/item_apropos"
+        app:showAsAction="never" />
 </menu>

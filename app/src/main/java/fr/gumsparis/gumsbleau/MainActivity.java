@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 String LoR = mesPrefs.getString(LONRDV, null);
                 String laP = mesPrefs.getString(LATPARK,null);
                 String LoP = mesPrefs.getString(LONPARK,null);
-                Uri cartoIntentUri = null;
+                Uri cartoIntentUri;
                 Intent cartoIntent = null;
                 if ("com.iphigenie".equals(appli)) {
                     if (flagGPX && AuxGPX.faitURI(laR,LoR,laP,LoP) != null) {
@@ -275,6 +275,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.choix_sortie) {
             Intent choisirSortie = new Intent(MainActivity.this, ChoixSortie.class);
             startActivity(choisirSortie);
+            return true;
+        }
+        if (id == R.id.apropos) {
+            Intent lireAPropos = new Intent(MainActivity.this, APropos.class);
+            startActivity(lireAPropos);
             return true;
         }
         return super.onOptionsItemSelected(item);

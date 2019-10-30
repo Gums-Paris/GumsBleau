@@ -54,4 +54,23 @@
     <string name="title_activity_choix_sortie">Choisir une sortie</string>
     <string name="choixsortie">Choisir une sortie</string>
     <string name="chk_chooser">Offre de choix systématique</string>
+    <string name="title_activity_apropos">À propos du GUMS</string>
+    <string name="item_apropos">À propos du GUMS</string>
+    <string name="aproposdugums">Chaque dimanche et jour férié les membres du GUMS (Groupe Universitaire de MontSagne et de ski) de Paris se retrouvent pour grimper en forêt
+        de Fontainebleau sur un site de blocs défini à l\'avance. Ces rassemblements sont plutôt informels, sauf lors des stages de débutants, mais on s\'entraide et on se conseille.
+        Noter que &lt;b&gt;les membres disposent pour leur activité d\'une assurance&lt;/b&gt; dans le cadre des sorties du club.&lt;br /&gt;&lt;br /&gt;
+        Plus généralement, le GUMS propose à ses adhérents de découvrir le milieu naturel et montagnard sous toutes ses formes, pour y pratiquer de multiples activités : &lt;b&gt;alpinisme,
+        ski de montagne, escalade, randonnée pédestre, expéditions lointaines&lt;/b&gt;. Il s\'adresse à toutes et à tous, pour découvrir, ou affermir sa pratique, quelle que soit la
+        discipline pratiquée. Les activités se déroulent surtout en pleine nature (stages ou week-ends en montagne ou en falaise, rendez-vous le dimanche à Fontainebleau) mais
+        cela n\'exclut pas de se retrouver lors de séances d’entraînement sur des murs d\'escalade en ville.&lt;br /&gt;&lt;br /&gt;
+        Le GUMS tient à ce que ses adhérents aient une &lt;b&gt;pratique autonome et responsable de l\'activité&lt;/b&gt;. L\'organisation des sorties et leur encadrement étant assuré par les
+        cadres bénévoles du club, chacun se doit de contribuer à leur préparation (nourriture, matériel,..).&lt;br /&gt;&lt;br /&gt;
+        La formation, gage essentiel de sécurité dans ces activités à risque que sont les sports de montagne, est un aspect très important au GUMS. Le club encourage ses membres
+        les plus actifs à devenir des &lt;b&gt;cadres diplômés par les fédérations compétentes&lt;/b&gt;, et finance en partie leur participation aux stages de formation nécessaires.&lt;br /&gt;&lt;br /&gt;
+        Le GUMS souhaite aussi pratiquer une &lt;b&gt;solidarité active vis-à-vis des jeunes&lt;/b&gt;, dont les revenus faibles ou irréguliers constituent souvent une limitation importante
+        à la pratique de la montagne. C\'est ainsi que les jeunes bénéficient de réductions de prix très substantielles sur les cotisations et sur les activités organisées par
+        l\'association.&lt;br /&gt;&lt;br /&gt;
+        Enfin, le GUMS entend défendre le &lt;b&gt;respect et la préservation du milieu naturel&lt;/b&gt; qui sert de cadre à ses activités et qui est trop souvent menacé par des projets
+        d\'aménagements excessifs ou par l\'intrusion des loisirs motorisés.&lt;br /&gt;&lt;br /&gt;
+        Tout savoir sur le GUMS : &lt;a href="https://www.gumsparis.asso.fr/"&gt;https://www.gumsparis.asso.fr/&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;</string>
 </resources>
