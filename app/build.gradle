@@ -6,8 +6,8 @@ android {
         applicationId "fr.gumsparis.gumsbleau"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 4
-        versionName "2.0.0"
+        versionCode 7
+        versionName "2.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         archivesBaseName = "GumsBleau-" + versionName
     }
@@ -28,5 +28,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
