@@ -37,7 +37,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 // pour donner la position de la vue portant l'item cliqué et envoyer la commande à MainActivity
             int mPosition = getLayoutPosition();
             String element = mArticlesset.get(mPosition);
-            Log.i("GUMSBLO","idArticle = "+element);
+            if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO","idArticle = "+element);}
             Intent choisi = new Intent(v.getContext(), MainActivity.class);
             choisi.putExtra("sortie", element);
             v.getContext().startActivity(choisi);

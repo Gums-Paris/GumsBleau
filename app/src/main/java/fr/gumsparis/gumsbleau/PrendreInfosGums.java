@@ -33,15 +33,19 @@ public  class PrendreInfosGums extends AsyncTask<String,Void,String> {
                 String str = new String(buffer, 0, octetsLus );
                 sb.append(str); }
             resultat = sb.toString();
-            Log.i("GUMSBLO", "nous avons un résultat ");
+            if (BuildConfig.DEBUG){
+                Log.i("GUMSBLO", "nous avons un résultat ");}
         }catch (ConnectException e){
-            Log.e("erreur connexion", e.getMessage());
+            if (BuildConfig.DEBUG){
+            Log.e("erreur connexion", e.getMessage());}
             resultat = "netOUT";
         }catch (MalformedURLException e) {
-            Log.e("erreur URL", e.getMessage());
+            if (BuildConfig.DEBUG){
+                Log.e("erreur URL", e.getMessage());}
             resultat = "netOUT";
         }catch (UnknownHostException e) {
-            Log.e("erreur url hôte", e.getMessage());
+            if (BuildConfig.DEBUG){
+            Log.e("erreur url hôte", e.getMessage());}
             resultat = "netOUT";
         }catch (IOException e) {
             e.printStackTrace();

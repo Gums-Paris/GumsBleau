@@ -17,7 +17,8 @@ public class PrendreInfosListe extends PrendreInfosGums {
 
     @Override
     protected void onPostExecute (String result) {
-        Log.i("GUMSBLO", "dans onPostExecute de liste");
+        if (BuildConfig.DEBUG){
+        Log.i("GUMSBLO", "dans onPostExecute de liste");}
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         SharedPreferences.Editor  editeur = mesPrefs.edit();
         if (result.equals("netOUT")) {

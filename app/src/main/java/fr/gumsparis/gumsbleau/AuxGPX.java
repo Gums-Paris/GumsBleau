@@ -25,16 +25,18 @@ public class AuxGPX {
     static boolean faitFichierGPX() {
         if(isExternalStorageWritable()){
             File fichiers = MyHelper.getInstance().recupStorageDir();
-            Log.i("GUMSBLO", "0  chemin OK "+fichiers.toString());
+            if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "0  chemin OK "+fichiers.toString());}
             mFile = new File(fichiers, LATLON_RV);
-            Log.i("GUMSBLO", "1  fichier créé ");
+            if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "1  fichier créé ");}
             return true;
         }else{ return false;}
     }
 
-    public static Uri faitURI(String lat, String lon, String laP, String LoP) {
+    static Uri faitURI(String lat, String lon, String laP, String LoP) {
 // fabrique le texte du fichier GPX
-        String texteGPX = faitGPXTexte(lat,lon,laP,LoP);
+        String texteGPX = faitGPXTexte(lat,lon);
 // écrit le fichier GPX dans le stockage de Documents
         try {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
@@ -44,7 +46,8 @@ public class AuxGPX {
                 output.write(texteGPX.getBytes());
                 output.close();
             }
-            Log.i("GUMSBLO", "3 fichier GPX a été écrit ");
+            if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "3 fichier GPX a été écrit ");}
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -56,14 +59,14 @@ public class AuxGPX {
         return MyHelper.getInstance().recupURI(mFile);
     }
 
-    private static String faitGPXTexte (String lat, String lon, String laP, String LoP){
+    private static String faitGPXTexte (String lat, String lon){
         String latBis = String.valueOf(Double.parseDouble(lat)+0.0003);
-        String texteFichier = GPX1+lat+GPX2+lon+GPX3+laP+GPX2+LoP+GPX4;
+        String texteFichier = GPX1+lat+GPX2+lon+GPX4;
+        if (BuildConfig.DEBUG){
 //        texteFichier = "<?xml version=\"1.0\" ?><gpx><trk><trkseg><trkpt lat=\"48.44596\" lon=\"2.63768\"></trkpt><trkpt lat=\"48.447261\" lon=\"2.640046\"></trkpt></trkseg></trk></gpx>";
-        Log.i("GUMSBLO", "2 fichier GPX "+texteFichier);
+        Log.i("GUMSBLO", "2 fichier GPX "+texteFichier);}
         return texteFichier;
     }
-
     private static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return (Environment.MEDIA_MOUNTED.equals(state));
@@ -73,7 +76,8 @@ public class AuxGPX {
         // Get the directory for the app's private documents directory.
         File file = new File(context.getExternalFilesDir(
                 Environment.DIRECTORY_DOCUMENTS), position);
-        Log.i("GUMSBLO", "chemin fichier GPX "+file.getPath());
+        if (BuildConfig.DEBUG){
+        Log.i("GUMSBLO", "chemin fichier GPX "+file.getPath());}
         if (!file.mkdir()) {
             Log.e("GUMSBLO", "Directory pas created");
         }

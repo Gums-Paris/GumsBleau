@@ -23,7 +23,8 @@ class Aux {
         ConnectivityManager cM = MyHelper.getInstance().conMan();
         NetworkInfo networkInfo = cM.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected()) {
-            Log.i("GUMSBLO", "nous sommes connectés");
+            if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "nous sommes connectés");}
             return true;
         }
         return false;

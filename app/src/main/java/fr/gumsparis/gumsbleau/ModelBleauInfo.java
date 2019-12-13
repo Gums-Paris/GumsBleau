@@ -31,7 +31,8 @@ public class ModelBleauInfo extends AndroidViewModel {
     // Constructeur du modèle ; récupère les infos auprès de gumsparis ou des Shared Preferences
     public ModelBleauInfo(@NonNull Application application) {
         super(application);
-        Log.i("GUMSBLO", "constructeur");
+        if (BuildConfig.DEBUG){
+        Log.i("GUMSBLO", "constructeur");}
 // création de l'instance de MyHelper qui va stocker le contexte de l'application. Cela permettra de récupérer le context et donc
 // en particulier les préférences de n'importe où en récupérant l'instance sans avoir à passer de contexte
         SharedPreferences mesPrefs = MyHelper.getInstance(application.getApplicationContext()).recupPrefs();
@@ -46,7 +47,8 @@ public class ModelBleauInfo extends AndroidViewModel {
             urlContact = urlContact + "&idarticle=" + mesPrefs.getString("sortiechoisie", null);
             editeur.putString("sortiechoisie", "");
             editeur.apply();
-            Log.i("GUMSBLO", "sortie choisie "+mesPrefs.getString("sortiechoisie", null));
+            if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "sortie choisie "+mesPrefs.getString("sortiechoisie", null));}
         }
         if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 0)) {
             if (Aux.isNetworkReachable()) {

@@ -23,7 +23,8 @@ public class PrendreInfosSortie extends PrendreInfosGums {
 
     @Override
     protected void onPostExecute (String result) {
-        Log.i("GUMSBLO", "dans postexecute de sortie");
+        if (BuildConfig.DEBUG){
+        Log.i("GUMSBLO", "dans postexecute de sortie");}
         String[] itis = new String[2];
         String lieu = "";
         String date = "";
