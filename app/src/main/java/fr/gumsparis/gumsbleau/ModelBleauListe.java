@@ -24,7 +24,7 @@ public class ModelBleauListe extends AndroidViewModel {
 
 // si la liste de sortie sauvegardée a plus d'une semaine on la redemande à gumsparis, sinon on sort la liste des prefs
         if (mesPrefs.getString(DATELISTE,null) == null || Aux.datePast(mesPrefs.getString(DATELISTE,null), 7)) {
-            if (Aux.isNetworkReachable()) {
+            if (Aux.isNetworkReachable(application.getApplicationContext())) {
                 new PrendreInfosListe().execute(urlContact);
             }
         } else {

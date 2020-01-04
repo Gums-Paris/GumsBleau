@@ -5,16 +5,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import androidx.annotation.NonNull;
 import android.util.Log;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-import static android.content.Context.CONNECTIVITY_SERVICE;
 import static fr.gumsparis.gumsbleau.MainActivity.LIEU;
 import static fr.gumsparis.gumsbleau.MainActivity.DATERV;
 import static fr.gumsparis.gumsbleau.MainActivity.ITIPARK;
@@ -51,7 +44,7 @@ public class ModelBleauInfo extends AndroidViewModel {
             Log.i("GUMSBLO", "sortie choisie "+mesPrefs.getString("sortiechoisie", null));}
         }
         if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 0)) {
-            if (Aux.isNetworkReachable()) {
+            if (Aux.isNetworkReachable(application.getApplicationContext())) {
                 new PrendreInfosSortie().execute(urlContact);
             }
         } else {

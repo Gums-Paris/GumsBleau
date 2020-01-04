@@ -6,8 +6,8 @@ android {
         applicationId "fr.gumsparis.gumsbleau"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 7
-        versionName "2.0.3"
+        versionCode 8
+        versionName "2.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         archivesBaseName = "GumsBleau-" + versionName
     }

@@ -1,5 +1,6 @@
 package fr.gumsparis.gumsbleau;
 
+import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -18,16 +19,11 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 
 class Aux {
 
-    // teste la disponibilité d'un accès réseau ; noter que NetworkInfo est déprécié dans l'API 29
-    static  boolean isNetworkReachable() {
-        ConnectivityManager cM = MyHelper.getInstance().conMan();
-        NetworkInfo networkInfo = cM.getActiveNetworkInfo();
-        if(networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected()) {
-            if (BuildConfig.DEBUG){
-            Log.i("GUMSBLO", "nous sommes connectés");}
-            return true;
-        }
-        return false;
+    static boolean isNetworkReachable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     // return true si uneDate est antérieure à la date du jour diminuée de ageMax (en jours)
