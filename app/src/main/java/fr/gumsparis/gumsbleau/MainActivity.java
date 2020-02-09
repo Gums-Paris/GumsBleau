@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 if (iR != null) {
                     rendezvous.setBackgroundColor(getResources().getColor(R.color.colorItiRdV));
                     rendezvous.setText(Html.fromHtml(getString(R.string.iti_rdv)+iR));
+                    rendezvous.setMovementMethod(LinkMovementMethod.getInstance());
                 }
             }
         };

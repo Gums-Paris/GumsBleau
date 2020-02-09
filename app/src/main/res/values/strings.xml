@@ -21,7 +21,7 @@
     <string name="helptext">&lt;b&gt;Comment ça marche&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;En fonctionnement automatique : &lt;/b&gt;&lt;br /&gt;\tAu démarrage GumsBleau affiche les descriptifs d\'itinéraires pour rejoindre
         le parking puis le rendez-vous de la sortie d\'escalade dominicale du GUMS de Paris. &lt;br /&gt;\tDeux boutons sont aussi disponibles pour obtenir un guidage jusqu\'au
         parking par une appli de navigation et pour afficher la position du rendez-vous sur une carte IGN (par
-        défaut Iphigenie).&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Bien noter que :&lt;/b&gt;&lt;br /&gt;\t GumsBleau a besoin d\'un accès Internet pour se procurer les informations auprès de www.gumsparis.asso.fr puis il
+        défaut Iphigenie) ou OpenTopo (OruxMaps).&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Bien noter que :&lt;/b&gt;&lt;br /&gt;\t GumsBleau a besoin d\'un accès Internet pour se procurer les informations auprès de www.gumsparis.asso.fr puis il
         les sauvegarde : elles restent disponibles jusqu\'au lendemain du jour de la sortie sans nécessiter de nouvelle connexion à Internet.
         &lt;br /&gt;\t Cependant les applis de navigation et de cartographie auront généralement besoin d\'un accès à internet pour fonctionner. En cliquant les boutons chez soi avant de
         partir on permet à ces applis de charger les cartes dont elles auront besoin.&lt;br /&gt;&lt;br /&gt;
