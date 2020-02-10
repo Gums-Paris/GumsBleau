@@ -127,12 +127,10 @@ public class MainActivity extends AppCompatActivity  {
                 patience.setVisibility(View.GONE);
                 if (iP != null) {
                     String itp = getString(R.string.iti_park)+iP;
-//                    parking.setBackgroundColor(getResources().getColor(R.color.colorItiPark));
                     parking.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorItiPark));
                     parking.setText(Aux.fromHtml(itp));
                 }
                 if (iR != null) {
-//                    rendezvous.setBackgroundColor(getResources().getColor(R.color.colorItiRdV));
                     rendezvous.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorItiRdV));
                     rendezvous.setText(Aux.fromHtml(getString(R.string.iti_rdv)+iR));
                     rendezvous.setMovementMethod(LinkMovementMethod.getInstance());
@@ -147,7 +145,6 @@ public class MainActivity extends AppCompatActivity  {
             public void onChanged(String newLieu) {
                 if (newLieu != null) {
                     String sl = "<b><big>"+newLieu+"</big></b>";
-//                    lieuSortie.setTextColor(getResources().getColor(R.color.rougeGums));
                     lieuSortie.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.rougeGums));
                     lieuSortie.setText(Aux.fromHtml(sl));
                 }
@@ -161,7 +158,6 @@ public class MainActivity extends AppCompatActivity  {
             public void onChanged(String newDate) {
                 if (newDate != null) {
                     String sd = "<b><big>"+newDate+"</big></b>";
-//                    dateSortie.setTextColor(getResources().getColor(R.color.rougeGums));
                     dateSortie.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.rougeGums));
                     dateSortie.setText(Aux.fromHtml(sd));
                 }
