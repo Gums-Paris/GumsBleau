@@ -3,6 +3,9 @@ package fr.gumsparis.gumsbleau;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -18,6 +21,15 @@ import java.util.Locale;
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
 class Aux {
+
+    @SuppressWarnings("deprecation")
+    static Spanned fromHtml(String source) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            return Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(source);
+        }
+    }
 
     static boolean isNetworkReachable(Context context) {
         ConnectivityManager connectivityManager

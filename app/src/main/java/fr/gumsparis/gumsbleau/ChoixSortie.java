@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +32,7 @@ public class ChoixSortie extends AppCompatActivity {
         attente.setVisibility(View.VISIBLE);
 
     // le model qui gère les données de la liste de sorties
-        manipsListe = ViewModelProviders.of(this).get(ModelBleauListe.class);
+        manipsListe = new ViewModelProvider(this).get(ModelBleauListe.class);
 
     // création de l'adapteur
         monAdapter = new MyAdapter();

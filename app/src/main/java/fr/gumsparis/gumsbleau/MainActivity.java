@@ -1,7 +1,8 @@
 package fr.gumsparis.gumsbleau;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +11,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -24,10 +24,9 @@ import android.widget.Toast;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     ModelBleauInfo manipsInfo = null;
-    static ModelBleauListe manipsListe = null;
     TextView lieuSortie = null;
     TextView dateSortie = null;
     TextView parking = null;
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         patience.setVisibility(View.VISIBLE);
 
 // instanciation ou récupération du ViewModel qui gère les données
-        manipsInfo = ViewModelProviders.of(this).get(ModelBleauInfo.class);
+        manipsInfo = new ViewModelProvider(this).get(ModelBleauInfo.class);
         if (BuildConfig.DEBUG){
         Log.i("GUMSBLO", "modèle créé");}
 
@@ -128,12 +127,14 @@ public class MainActivity extends AppCompatActivity {
                 patience.setVisibility(View.GONE);
                 if (iP != null) {
                     String itp = getString(R.string.iti_park)+iP;
-                    parking.setBackgroundColor(getResources().getColor(R.color.colorItiPark));
-                    parking.setText(Html.fromHtml(itp));
+//                    parking.setBackgroundColor(getResources().getColor(R.color.colorItiPark));
+                    parking.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorItiPark));
+                    parking.setText(Aux.fromHtml(itp));
                 }
                 if (iR != null) {
-                    rendezvous.setBackgroundColor(getResources().getColor(R.color.colorItiRdV));
-                    rendezvous.setText(Html.fromHtml(getString(R.string.iti_rdv)+iR));
+//                    rendezvous.setBackgroundColor(getResources().getColor(R.color.colorItiRdV));
+                    rendezvous.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorItiRdV));
+                    rendezvous.setText(Aux.fromHtml(getString(R.string.iti_rdv)+iR));
                     rendezvous.setMovementMethod(LinkMovementMethod.getInstance());
                 }
             }
@@ -146,8 +147,9 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(String newLieu) {
                 if (newLieu != null) {
                     String sl = "<b><big>"+newLieu+"</big></b>";
-                    lieuSortie.setTextColor(getResources().getColor(R.color.rougeGums));
-                    lieuSortie.setText(Html.fromHtml(sl));
+//                    lieuSortie.setTextColor(getResources().getColor(R.color.rougeGums));
+                    lieuSortie.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.rougeGums));
+                    lieuSortie.setText(Aux.fromHtml(sl));
                 }
             }
         };
@@ -159,8 +161,9 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(String newDate) {
                 if (newDate != null) {
                     String sd = "<b><big>"+newDate+"</big></b>";
-                    dateSortie.setTextColor(getResources().getColor(R.color.rougeGums));
-                    dateSortie.setText(Html.fromHtml(sd));
+//                    dateSortie.setTextColor(getResources().getColor(R.color.rougeGums));
+                    dateSortie.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.rougeGums));
+                    dateSortie.setText(Aux.fromHtml(sd));
                 }
             }
         };

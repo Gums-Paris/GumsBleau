@@ -55,7 +55,7 @@ public class ChoixApplis extends AppCompatActivity {
         terminer = findViewById(R.id.buttonfin);
 
 // choix du comportement pour le choix de l'applide navigation
-        choixnav.setText(Html.fromHtml(getString(R.string.choixnav)));
+        choixnav.setText(Aux.fromHtml(getString(R.string.choixnav)));
         editeur.putString("chooser", "no");
         editeur.apply();
         casenav.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +70,7 @@ public class ChoixApplis extends AppCompatActivity {
         });
 
 // choix d'une appli pour la cartographie autour du rendez-vous
-        choixcarto.setText(Html.fromHtml(getString(R.string.choixcarto)));
+        choixcarto.setText(Aux.fromHtml(getString(R.string.choixcarto)));
 
         if(getString(R.string.ifi).equals(applicarto)) {ifi.setChecked(true);}
         else if(getString(R.string.vrg).equals(applicarto)) {vrg.setChecked(true);}

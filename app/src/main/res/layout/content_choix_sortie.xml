@@ -20,7 +20,7 @@
         android:id="@+id/vue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choisissez !"
+        android:text="@string/choose"
         android:layout_marginTop="64dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
