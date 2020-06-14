@@ -60,7 +60,8 @@ public class AuxGPX {
     }
 
     private static String faitGPXTexte (String lat, String lon){
-        String latBis = String.valueOf(Double.parseDouble(lat)+0.0003);
+//        String latBis = String.valueOf(Double.parseDouble(lat)+0.0003);
+//  servait à créer une trace à deux points très proches
         String texteFichier = GPX1+lat+GPX2+lon+GPX4;
         if (BuildConfig.DEBUG){
 //        texteFichier = "<?xml version=\"1.0\" ?><gpx><trk><trkseg><trkpt lat=\"48.44596\" lon=\"2.63768\"></trkpt><trkpt lat=\"48.447261\" lon=\"2.640046\"></trkpt></trkseg></trk></gpx>";

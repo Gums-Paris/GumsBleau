@@ -173,21 +173,25 @@ public class MainActivity extends AppCompatActivity  {
         boutonPark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // pour envoi intent à l'appli nav : itinéraire jusqu'au parking
+                // pour envoi intent à l'appli nav : itinéraire jusqu'au parking si coordonnées OK
                 String laP = mesPrefs.getString(LATPARK, null);
                 String LoP = mesPrefs.getString(LONPARK, null);
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + laP + "," + LoP);
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                if ("yes".equals(mesPrefs.getString("chooser", null))) {
-                    String titre = "Choisir une appli de guidage routier";
-                    Intent chooser = Intent.createChooser(mapIntent, titre);
-                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(chooser);
+                if (!("".equals(laP)) && !("".equals(LoP))) {
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + laP + "," + LoP);
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    if ("yes".equals(mesPrefs.getString("chooser", null))) {
+                        String titre = "Choisir une appli de guidage routier";
+                        Intent chooser = Intent.createChooser(mapIntent, titre);
+                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(chooser);
+                        }
+                    } else if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Appli de navigation non disponible", Toast.LENGTH_LONG).show();
                     }
-                }else if (mapIntent.resolveActivity(getPackageManager()) != null){
-                    startActivity(mapIntent);
                 }else{
-                    Toast.makeText(MainActivity.this, "Appli de navigation non disponible", Toast.LENGTH_LONG).show();
+                    alerte("noPK");
                 }
             }
         });
@@ -195,42 +199,52 @@ public class MainActivity extends AppCompatActivity  {
         boutonRdV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-         // pour envoi intent à l'appli carto : position du rendez-vous
+                // pour envoi intent à l'appli carto : position du rendez-vous si coordonnées OK
                 String appli = mesPrefs.getString(APPLICARTO, getString(R.string.ifi));
                 String laR = mesPrefs.getString(LATRDV, null);
                 String LoR = mesPrefs.getString(LONRDV, null);
-                String laP = mesPrefs.getString(LATPARK,null);
-                String LoP = mesPrefs.getString(LONPARK,null);
-                Uri cartoIntentUri;
-                Intent cartoIntent = null;
-                if ("com.iphigenie".equals(appli)) {
-                    if (flagGPX && AuxGPX.faitURI(laR,LoR,laP,LoP) != null) {
-                        cartoIntentUri = AuxGPX.faitURI(laR, LoR, laP, LoP);
-                        if (BuildConfig.DEBUG){
-                            Log.i("GUMSBLO", "4 URI carto= ");}
+                String laP = mesPrefs.getString(LATPARK, null);
+                String LoP = mesPrefs.getString(LONPARK, null);
+                if (BuildConfig.DEBUG) {
+                    Log.i("GUMSBLO", "coord RV " + laR + "  " + LoR);
+                }
+                if (!("".equals(laR)) && !("".equals(LoR))) {
+                    Uri cartoIntentUri;
+                    Intent cartoIntent = null;
+                    if ("com.iphigenie".equals(appli)) {
+                        if (flagGPX && AuxGPX.faitURI(laR, LoR, laP, LoP) != null) {
+                            cartoIntentUri = AuxGPX.faitURI(laR, LoR, laP, LoP);
+                            if (BuildConfig.DEBUG) {
+                                Log.i("GUMSBLO", "4 URI carto= ");
+                            }
+                            cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
+                            cartoIntent.setPackage(appli);
+                            cartoIntent.setFlags(FLAG_GRANT_READ_URI_PERMISSION);
+                            if (BuildConfig.DEBUG) {
+                                Log.i("GUMSBLO", "5 Intent carto= " + cartoIntent.toString());
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, "Cette appli ne peut pas être utilisée", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        cartoIntentUri = Uri.parse("geo:" + laR + "," + LoR);
                         cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
                         cartoIntent.setPackage(appli);
-                        cartoIntent.setFlags(FLAG_GRANT_READ_URI_PERMISSION);
-                        if (BuildConfig.DEBUG){
-                        Log.i("GUMSBLO", "5 Intent carto= "+cartoIntent.toString());}
-                    }else{
-                        Toast.makeText(MainActivity.this, "Cette appli ne peut pas être utilisée", Toast.LENGTH_LONG).show();
                     }
-                }else {
-                    cartoIntentUri = Uri.parse("geo:" + laR + "," + LoR);
-                    cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
-                    cartoIntent.setPackage(appli);
-                }
-                if (cartoIntent != null) {
-                    if (cartoIntent.resolveActivity(getPackageManager()) != null) {
-                        if (BuildConfig.DEBUG){
-                            Log.i("GUMSBLO", "6 lancement carto");}
-                        startActivity(cartoIntent);
+                    if (cartoIntent != null) {
+                        if (cartoIntent.resolveActivity(getPackageManager()) != null) {
+                            if (BuildConfig.DEBUG) {
+                                Log.i("GUMSBLO", "6 lancement carto");
+                            }
+                            startActivity(cartoIntent);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Appli de carte topo non disponible", Toast.LENGTH_LONG).show();
+                        }
                     } else {
-                        Toast.makeText(MainActivity.this, "Appli de carte topo non disponible", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Signaler problème aux développeurs", Toast.LENGTH_LONG).show();
                     }
-                }else {
-                    Toast.makeText(MainActivity.this, "Signaler problème aux développeurs", Toast.LENGTH_LONG).show();
+                }else{
+                    alerte("noRV");
                 }
             }
         });
@@ -249,6 +263,12 @@ public class MainActivity extends AppCompatActivity  {
                 break;
             case "3" :
                 message = getString(R.string.pas_contact);
+                break;
+            case "noPK":
+                message = "Coordonnées parking inutilisables";
+                break;
+            case "noRV":
+                message = "Coordonnées rendez-vous inutilisables";
         }
         DialogAlertes infoUtilisateur = DialogAlertes.newInstance(message);
         infoUtilisateur.show(getSupportFragmentManager(), "infoutilisateur");
