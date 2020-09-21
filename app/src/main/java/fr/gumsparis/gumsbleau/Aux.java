@@ -51,6 +51,10 @@ class Aux {
         c.add(Calendar.DATE, (ageMax * -1));
         Date date2 = c.getTime();
         try {
+            if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "date info = "+uneDate);
+            Log.i("GUMSBLO", "date2/date1 = "+date2.compareTo(date1));
+            Log.i("GUMSBLO", "date jour = "+date2);}
             return (date2.compareTo(date1) >= 0);
         } catch (NullPointerException e) {
             e.printStackTrace();

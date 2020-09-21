@@ -29,7 +29,6 @@ public class PrendreInfosSortie extends PrendreInfosGums {
         String lieu = "";
         String date = "";
         String flag = "2";
-
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         SharedPreferences.Editor  editeur = mesPrefs.edit();
 

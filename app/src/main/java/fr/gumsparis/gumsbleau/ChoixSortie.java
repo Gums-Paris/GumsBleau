@@ -20,7 +20,7 @@ public class ChoixSortie extends AppCompatActivity {
     ArrayList<String> listeNomLieu = new ArrayList<>();
     ArrayList<String> listeIdArticle = new ArrayList<>();
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter monAdapter;
+    private RecyclerView.Adapter<MyAdapter.MyViewHolder> monAdapter;
     ProgressBar attente = null;
 
     protected void onCreate(Bundle savedInstanceState) {
