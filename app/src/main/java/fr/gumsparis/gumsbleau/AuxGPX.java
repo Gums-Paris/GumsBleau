@@ -6,19 +6,18 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class AuxGPX {
 
-    static private String LATLON_RV = "latlon.gpx";
-    static private String LOCATION = "location";
-    private String CONTENU = "<?xml version=\"1.0\" ?><gpx><trkpt lat=\"44.9801\" lon=\"6.5030\"></trkpt></gpx>";
-    static private String GPX1 ="<?xml version=\"1.0\" ?><gpx><trk><trkseg><trkpt lat=\"";
-    static private String GPX2 ="\" lon=\"";
-    static private String GPX3 ="\"></trkpt><trkpt lat=\"";
-    static private String GPX4 ="\"></trkpt></trkseg></trk></gpx>";
+    static final private String LATLON_RV = "latlon.gpx";
+    static final private String LOCATION = "location";
+    final private String CONTENU = "<?xml version=\"1.0\" ?><gpx><trkpt lat=\"44.9801\" lon=\"6.5030\"></trkpt></gpx>";
+    static final private String GPX1 ="<?xml version=\"1.0\" ?><gpx><trk><trkseg><trkpt lat=\"";
+    static final private String GPX2 ="\" lon=\"";
+    static final private String GPX3 ="\"></trkpt><trkpt lat=\"";
+    static final private String GPX4 ="\"></trkpt></trkseg></trk></gpx>";
 
     private static File mFile = null;
 
@@ -48,9 +47,6 @@ public class AuxGPX {
             }
             if (BuildConfig.DEBUG){
             Log.i("GUMSBLO", "3 fichier GPX a été écrit ");}
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;

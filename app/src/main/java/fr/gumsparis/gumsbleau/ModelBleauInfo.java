@@ -26,30 +26,30 @@ public class ModelBleauInfo extends AndroidViewModel {
         super(application);
         if (BuildConfig.DEBUG){
         Log.i("GUMSBLO", "constructeur");}
-// création de l'instance de MyHelper qui va stocker le contexte de l'application. Cela permettra de récupérer le context et donc
-// en particulier les préférences de n'importe où en récupérant l'instance sans avoir à passer de contexte
-        SharedPreferences mesPrefs = MyHelper.getInstance(application.getApplicationContext()).recupPrefs();
+
+        SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         SharedPreferences.Editor editeur = mesPrefs.edit();
         boolean choixSortie = false;
 
 // s'il y a eu choix de sortie ou n'y a pas d'info ou si l'info est périmée on va la chercher sur gumsparis,
 // sinon on la sort des SharedPrefs
         String urlContact = UrlsGblo.SORTIE.getUrl();
-        if ((mesPrefs.getString("sortiechoisie", null)!=null)&&!(mesPrefs.getString("sortiechoisie", null)).isEmpty()) {
+        String sortieChoisie = mesPrefs.getString("sortiechoisie", null);
+        if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "sortie choisie "+sortieChoisie);}
+        if ((sortieChoisie!=null)&&!(sortieChoisie).isEmpty()) {
             choixSortie = true;
             urlContact = urlContact + "&idarticle=" + mesPrefs.getString("sortiechoisie", null);
             editeur.putString("sortiechoisie", "");
             editeur.apply();
-            if (BuildConfig.DEBUG){
-            Log.i("GUMSBLO", "sortie choisie "+mesPrefs.getString("sortiechoisie", null));}
-        }
+         }
         if (BuildConfig.DEBUG){
         Log.i("GUMSBLO", "choixSortie = "+choixSortie);
         Log.i("GUMSBLO", "DATERV = "+mesPrefs.getString(DATERV, null));
         Log.i("GUMSBLO", "peremption =  "+Aux.datePast(mesPrefs.getString(DATERV,null), 1));}
 
         if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 1)) {
-            if (Aux.isNetworkReachable(application.getApplicationContext())) {
+            if (Variables.isNetworkConnected) {
                 new PrendreInfosSortie().execute(urlContact);
             }
         } else {

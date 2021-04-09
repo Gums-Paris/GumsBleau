@@ -1,13 +1,11 @@
 package fr.gumsparis.gumsbleau;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,9 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import static fr.gumsparis.gumsbleau.MainActivity.APPLINAV;
 import static fr.gumsparis.gumsbleau.MainActivity.APPLICARTO;
-
 
 public class ChoixApplis extends AppCompatActivity {
 
@@ -32,6 +28,7 @@ public class ChoixApplis extends AppCompatActivity {
     RadioButton mtr = null;
     RadioButton orx = null;
     Button terminer = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +55,10 @@ public class ChoixApplis extends AppCompatActivity {
         choixnav.setText(Aux.fromHtml(getString(R.string.choixnav)));
         editeur.putString("chooser", "no");
         editeur.apply();
-        casenav.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    editeur.putString("chooser", "yes");
-                    editeur.apply();
-                }
+        casenav.setOnClickListener(v -> {
+            if (((CheckBox)v).isChecked()) {
+                editeur.putString("chooser", "yes");
+                editeur.apply();
             }
         });
 
@@ -77,33 +70,20 @@ public class ChoixApplis extends AppCompatActivity {
         else if(getString(R.string.mtr).equals(applicarto)) {mtr.setChecked(true);}
         else if(getString(R.string.orx).equals(applicarto)) {orx.setChecked(true);}
 
-        rgCarto.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener()
-        {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
-                    case R.id.iphi:
-                        editeur.putString(APPLICARTO, getString(R.string.ifi));
-                        break;
-                    case R.id.vranger:
-                        editeur.putString(APPLICARTO, getString(R.string.vrg));
-                        break;
-                    case R.id.mtrails:
-                        editeur.putString(APPLICARTO, getString(R.string.mtr));
-                        break;
-                    case R.id.orux:
-                        editeur.putString(APPLICARTO, getString(R.string.orx));
-                        break;
-                }
-                editeur.apply();
+        rgCarto.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.iphi) {
+                editeur.putString(APPLICARTO, getString(R.string.ifi));
+            }else if (checkedId == R.id.vranger) {
+                editeur.putString(APPLICARTO, getString(R.string.vrg));
+            }else if (checkedId == R.id.mtrails) {
+                editeur.putString(APPLICARTO, getString(R.string.mtr));
+            }else if (checkedId == R.id.orux){
+                editeur.putString(APPLICARTO, getString(R.string.orx));
             }
+            editeur.apply();
         });
 
-        terminer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        terminer.setOnClickListener(v -> finish());
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

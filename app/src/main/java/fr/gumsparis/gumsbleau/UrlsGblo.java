@@ -10,7 +10,7 @@ public enum UrlsGblo {
 //    LISTE("https://v2.gumsparis.asso.fr/index.php?option=com_gblo&view=listesorties&format=json");
 //    API_LOCAL("http://10.0.2.2:8081/index.php");
 
-    private String url = "";
+    final private String url ;
 
     UrlsGblo(String url) {
         this.url = url;

@@ -51,7 +51,8 @@ public class PrendreInfosSortie extends PrendreInfosGums {
                 }
                 if (jInfos.opt(DATERV) != null) {
                     date = (String) jInfos.opt(DATERV);
-                    editeur.putString(DATERV, date);
+                    if (mesPrefs.getBoolean("auto", true)) {
+                    editeur.putString(DATERV, date); }
                 }
                 if (jInfos.opt(LATPARK) != null) {
                     editeur.putString(LATPARK, (String) jInfos.opt(LATPARK));

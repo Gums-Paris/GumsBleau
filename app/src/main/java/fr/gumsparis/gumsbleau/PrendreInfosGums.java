@@ -18,7 +18,7 @@ public  class PrendreInfosGums extends AsyncTask<String,Void,String> {
     @Override
     protected String doInBackground(String... urls) {
 
-        String resultat = null;
+        String resultat ;
         BufferedInputStream input = null;
 
         try {
@@ -28,7 +28,7 @@ public  class PrendreInfosGums extends AsyncTask<String,Void,String> {
             Log.i("GUMSBLO", "nous avons un stream");
             byte[] buffer = new byte[1024];
             StringBuilder sb = new StringBuilder();
-            int octetsLus = 0;
+            int octetsLus ;
             while ((octetsLus = input.read(buffer)) > 0) {
                 String str = new String(buffer, 0, octetsLus );
                 sb.append(str); }

@@ -1,12 +1,14 @@
 package fr.gumsparis.gumsbleau;
 
-import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +20,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.content.Context.CONNECTIVITY_SERVICE;
 
 class Aux {
 
@@ -31,11 +32,38 @@ class Aux {
         }
     }
 
-    static boolean isNetworkReachable(Context context) {
+/*    static boolean isNetworkReachable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }  */
+
+    static void isNetworkReachable() {
+        ConnectivityManager connectivityManager
+                = MyHelper.getInstance().conMan();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            Variables.isNetworkConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }else {
+            try {
+                connectivityManager.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+                       @Override
+                       public void onAvailable(@NonNull Network network) {
+                           Log.i("SECUSERV", "on available " );
+                           Variables.isNetworkConnected = true; // Global Static Variable
+                       }
+                       @Override
+                       public void onLost(@NonNull Network network) {
+                           Log.i("SECUSERV", "on lost " );
+                           Variables.isNetworkConnected = false; // Global Static Variable
+                       }
+                   }
+                );
+            } catch (Exception e) {
+                Variables.isNetworkConnected = false;
+            }
+        }
     }
 
     // return true si uneDate est antérieure à la date du jour diminuée de ageMax (en jours)

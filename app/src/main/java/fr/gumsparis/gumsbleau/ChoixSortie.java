@@ -42,36 +42,25 @@ public class ChoixSortie extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
-        final Observer<Boolean> flagObserver = new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean newFlag) {
-                flagDeListe = newFlag;
-            }
-        };
+        final Observer<Boolean> flagObserver = newFlag -> flagDeListe = newFlag;
         manipsListe.getFlagListe().observe(this, flagObserver);
 
     // puis l'observateur de la liste de lieus, affecter la liste à l'adapteur et l'adapteur à la recyclerView
-        final Observer<ArrayList<String>> listeLieuObserver = new Observer<ArrayList<String>>() {
-            @Override
-            public void onChanged(ArrayList<String> newListeLieu) {
-                attente.setVisibility(View.GONE);
-                if (newListeLieu != null) {
-                    listeNomLieu = newListeLieu;
-                    ((MyAdapter) monAdapter).setData(newListeLieu);
-                    recyclerView.setAdapter(monAdapter);
-               }
-            }
+        final Observer<ArrayList<String>> listeLieuObserver = newListeLieu -> {
+            attente.setVisibility(View.GONE);
+            if (newListeLieu != null) {
+                listeNomLieu = newListeLieu;
+                ((MyAdapter) monAdapter).setData(newListeLieu);
+                recyclerView.setAdapter(monAdapter);
+           }
         };
         manipsListe.getListeLieux().observe(this, listeLieuObserver);
 
     // puis l'observateur de la liste des id d'article et la confier à l'adapteur
-        final Observer<ArrayList<String>> listeArticleObserver = new Observer<ArrayList<String>>() {
-            @Override
-            public void onChanged(ArrayList<String> newListeArticle) {
-                if (newListeArticle != null) {
-                    listeIdArticle = newListeArticle;
-                    ((MyAdapter) monAdapter).setArticles(newListeArticle);
-                }
+        final Observer<ArrayList<String>> listeArticleObserver = newListeArticle -> {
+            if (newListeArticle != null) {
+                listeIdArticle = newListeArticle;
+                ((MyAdapter) monAdapter).setArticles(newListeArticle);
             }
         };
         manipsListe.getListeArticles().observe(this, listeArticleObserver);
