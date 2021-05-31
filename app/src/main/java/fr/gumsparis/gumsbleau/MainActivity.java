@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity  {
     static final String LATRDV = "latRdV";
     static final String LONRDV = "lonRdV";
     static final String FLAG = "flag";
-    static final String APPLINAV = "appnav";
     static final String APPLICARTO = "appcarto";
     static final String DATELISTE = "dateliste";
     boolean flagGPX = true;
@@ -135,7 +134,7 @@ public class MainActivity extends AppCompatActivity  {
 // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
         final Observer<String> flagObserver = newFlag -> {
 //                patience.setVisibility(View.GONE);
-            if (!newFlag.equals("0")) {
+            if (!"0".equals(newFlag)) {
                 alerte(newFlag);
             }
         };
