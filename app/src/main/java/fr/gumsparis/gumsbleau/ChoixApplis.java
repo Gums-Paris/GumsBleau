@@ -27,6 +27,7 @@ public class ChoixApplis extends AppCompatActivity {
     RadioButton vrg = null;
     RadioButton mtr = null;
     RadioButton orx = null;
+    RadioButton komt = null;
     Button terminer = null;
 
 
@@ -49,6 +50,7 @@ public class ChoixApplis extends AppCompatActivity {
         vrg = findViewById(R.id.vranger);
         mtr =  findViewById(R.id.mtrails);
         orx = findViewById(R.id.orux);
+        komt = findViewById(R.id.komoot);
         terminer = findViewById(R.id.buttonfin);
 
 // choix du comportement pour le choix de l'applide navigation
@@ -69,6 +71,7 @@ public class ChoixApplis extends AppCompatActivity {
         else if(getString(R.string.vrg).equals(applicarto)) {vrg.setChecked(true);}
         else if(getString(R.string.mtr).equals(applicarto)) {mtr.setChecked(true);}
         else if(getString(R.string.orx).equals(applicarto)) {orx.setChecked(true);}
+        else if(getString(R.string.komt).equals(applicarto)) {komt.setChecked(true);}
 
         rgCarto.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.iphi) {
@@ -79,6 +82,8 @@ public class ChoixApplis extends AppCompatActivity {
                 editeur.putString(APPLICARTO, getString(R.string.mtr));
             }else if (checkedId == R.id.orux){
                 editeur.putString(APPLICARTO, getString(R.string.orx));
+            }else if (checkedId == R.id.komoot){
+                editeur.putString(APPLICARTO, getString(R.string.komt));
             }
             editeur.apply();
         });

@@ -236,7 +236,12 @@ public class MainActivity extends AppCompatActivity  {
                     } else {
                         Toast.makeText(MainActivity.this, "Cette appli ne peut pas être utilisée", Toast.LENGTH_LONG).show();
                     }
-                } else {
+                }else if("de.komoot.android".equals(appli)){
+                    cartoIntentUri = Uri.parse("google.navigation:q=" + laR + "," + LoR);
+                    cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
+                    cartoIntent.setPackage(appli);
+                }
+                else {
                     cartoIntentUri = Uri.parse("geo:" + laR + "," + LoR);
                     cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
                     cartoIntent.setPackage(appli);

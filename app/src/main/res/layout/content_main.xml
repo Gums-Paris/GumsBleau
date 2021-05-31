@@ -110,6 +110,7 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:text="@string/iti_rdv"
+            android:textIsSelectable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/infonav" />
