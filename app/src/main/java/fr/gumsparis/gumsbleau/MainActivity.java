@@ -78,7 +78,11 @@ public class MainActivity extends AppCompatActivity  {
 //   à passer de contexte
         mesPrefs =  MyHelper.getInstance(getApplicationContext()).recupPrefs();
         SharedPreferences.Editor editeur = mesPrefs.edit();
-
+// initialiser le choix d'appli de navigation à "ne pas offrir le choix"
+        if(!mesPrefs.contains("chooser")){
+            editeur.putString("chooser", "no");
+            editeur.apply();
+        }
         getSystemService(CONNECTIVITY_SERVICE);
         Aux.isNetworkReachable();
 // Faut parfois patienter un peu jusqu'à ce que le réseau soit disponible
@@ -191,7 +195,8 @@ public class MainActivity extends AppCompatActivity  {
             if (!("".equals(laP)) && !("".equals(LoP))) {
                 Uri gmmIntentUri = Uri.parse("google.navigation:q=" + laP + "," + LoP);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                if ("yes".equals(mesPrefs.getString("chooser", null))) {
+                String choisir = mesPrefs.getString("chooser", null);
+                if ("yes".equals(choisir)) {
                     String titre = "Choisir une appli de guidage routier";
                     Intent chooser = Intent.createChooser(mapIntent, titre);
                     if (mapIntent.resolveActivity(getPackageManager()) != null) {

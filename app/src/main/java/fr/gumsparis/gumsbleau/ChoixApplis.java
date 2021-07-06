@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -54,11 +55,13 @@ public class ChoixApplis extends AppCompatActivity {
 
 // choix du comportement pour le choix de l'applide navigation
         choixnav.setText(Aux.fromHtml(getString(R.string.choixnav)));
-        editeur.putString("chooser", "no");
-        editeur.apply();
+        if ("yes".equals(mesPrefs.getString("chooser", null))){casenav.setChecked(true);}
         casenav.setOnClickListener(v -> {
             if (((CheckBox)v).isChecked()) {
                 editeur.putString("chooser", "yes");
+                editeur.apply();
+            }else{
+                editeur.putString("chooser", "no");
                 editeur.apply();
             }
         });

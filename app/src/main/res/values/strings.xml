@@ -37,9 +37,8 @@
         Pour toute question, remarque ou suggestion écrire à &lt;a href=\"mailto:appli.gumsbleau\@gumsparis.asso.fr\"&gt;
         appli.gumsbleau au Gums de Paris&lt;/a&gt;</string>
     <string name="choixnav">&lt;b&gt;Choix appli de navigation vers le parking :&lt;/b&gt; &lt;br /&gt;
-        Si la case n\'est pas cochée, le système offre le choix entre les applis possibles seulement la première fois que le
-        bouton "Parking" est cliqué. Les fois suivantes il utilise toujours la même appli. Cochez la case si vous voulez
-    avoir le choix à chaque fois.</string>
+        Si la case n\'est pas cochée, GumsBleau utilise Google Maps. Cochez la case si vous voulez avoir le choix
+        entre les différentes applis de navigation installées sur votre smartphone.</string>
     <string name="choixcarto">&lt;b&gt;Choix appli de carte topographique pour localiser le rendez-vous :&lt;/b&gt; &lt;br /&gt;Par défaut GumsBleau utilise Iphigénie. Cliquer
         pour changer. Toutes ces applis sauf OruxMaps peuvent montrer la carte topographique IGN (fond TOP25) si vous possédez un abonnement. &lt;br /&gt;Il faut souscrire
         cet abonnement à travers l\'appli ; il n\'est pas transférable entre applis.&lt;br /&gt;OruxMaps n\'a pas d\'accès aux cartes IGN en ligne. Il est possible de lui ajouter des cartes
