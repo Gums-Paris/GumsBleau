@@ -45,8 +45,8 @@ public class ModelBleauInfo extends AndroidViewModel {
          }
         if (BuildConfig.DEBUG){
         Log.i("GUMSBLO", "choixSortie = "+choixSortie);
-        Log.i("GUMSBLO", "DATERV = "+mesPrefs.getString(DATERV, null));
-        Log.i("GUMSBLO", "peremption =  "+Aux.datePast(mesPrefs.getString(DATERV,null), 1));}
+        Log.i("GUMSBLO", "DATERV = "+mesPrefs.getString(DATERV, ""));
+        Log.i("GUMSBLO", "peremption =  "+Aux.datePast(mesPrefs.getString(DATERV,""), 1));}
 
         if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 1)) {
             if (Variables.isNetworkConnected) {

@@ -94,8 +94,9 @@ public class MainActivity extends AppCompatActivity  {
             }, 20); // délai 0.02 sec
             count++;
             if (count > 1000) {
-                alerte("5");
-                finish();
+                alerte("3");
+                break;
+ //               finish();
             }
         }
         patience.setVisibility(View.GONE);
