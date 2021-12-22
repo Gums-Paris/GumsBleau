@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity  {
         int count = 0;
         if (BuildConfig.DEBUG){
             Log.i("GUMSBLO", "while "+Variables.isNetworkConnected);}
-        while (!Variables.isNetworkConnected) {
+        // nettoyage à tester
+/*        while (!Variables.isNetworkConnected) {
             new Handler().postDelayed(() -> {
                 //on attend que le temps passe
             }, 20); // délai 0.02 sec
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity  {
                 break;
  //               finish();
             }
-        }
+        }   */
         patience.setVisibility(View.GONE);
 // initialiser le paramètre de choix appli de navigation si nécessaire
         if (mesPrefs.getString("chooser", null) == null) {
