@@ -142,10 +142,14 @@ public class MainActivity extends AppCompatActivity  {
         Log.i("GUMSBLO", "modèle créé");}
 
 // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
+
+
+
         final Observer<String> flagObserver = newFlag -> {
 //                patience.setVisibility(View.GONE);
             if (!"0".equals(newFlag)) {
                 alerte(newFlag);
+
             }
         };
         manipsInfo.getFlagInfos().observe(MainActivity.this, flagObserver);
