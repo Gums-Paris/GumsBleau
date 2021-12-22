@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity  {
         int count = 0;
         if (BuildConfig.DEBUG){
             Log.i("GUMSBLO", "while "+Variables.isNetworkConnected);}
-        // nettoyage à tester
+        // nettoyage
 /*        while (!Variables.isNetworkConnected) {
             new Handler().postDelayed(() -> {
                 //on attend que le temps passe
