@@ -3,6 +3,7 @@ package fr.gumsparis.gumsbleau;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -10,7 +11,9 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 
+import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static fr.gumsparis.gumsbleau.AuxGPX.getPrivateDocStorageDir;
 import static fr.gumsparis.gumsbleau.MainActivity.PREF_FILE;
 
 class MyHelper {
@@ -57,9 +60,17 @@ class MyHelper {
         return mContext.getResources();
     }
 
+// méthode pour accéder au private doc storage dir
+    File recupStorageDir() { return getPrivateDocStorageDir(mContext, "location");}
+
 // méthode pour créer l'Uri avec le FileProvider
     Uri recupURI(File fichier) {
         return FileProvider.getUriForFile(mContext,"fr.gumsparis.gumsbleau.fileprovider", fichier);
+    }
+
+// fabrication d'un gestionnaire de connexion
+    ConnectivityManager conMan() {
+        return (ConnectivityManager) mContext.getSystemService(CONNECTIVITY_SERVICE);
     }
 
 }

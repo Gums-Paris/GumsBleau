@@ -13,25 +13,36 @@
     <string name="note_rdv">Notice rendez-vous</string>
     <string name="lieu_rdv">Rendez-vous</string>
     <string name="info_rdv">Si vous avez une appli de carte topographique cliquez RENDEZ-VOUS. Cela ouvrira une carte IGN
-        (abonnement payant nécessaire) centrée sur le rendez-vous.</string>
+        (abonnement payant nécessaire) ou OST centrée sur le rendez-vous.</string>
     <string name="pas_contact">Je ne peux rien faire ! Je n\'ai pas eu le contact avec gumsparis.asso.fr</string>
     <string name="pas_infos">Je ne peux rien faire ! Je n\'ai pas reçu d\'informations de la part de gumsparis.asso.fr</string>
     <string name="infos_partielles">Infos incomplètes ou mal formatées. Il y aura des problèmes d\'affichage ou de fonctionnalités</string>
     <string name="title_activity_aide">Aide</string>
-    <string name="helptext">&lt;b&gt;Comment ça marche&lt;/b&gt;&lt;br /&gt;\t Au démarrage GumsBleau affiche les descriptifs d\'itinéraires pour rejoindre le parking puis le
-        rendez-vous de la sortie d\'escalade dominicale du GUMS de Paris. &lt;br /&gt;\tDeux boutons sont aussi disponibles pour obtenir un guidage jusqu\'au
-        parking par une appli de navigation (par défaut GoogleAppsNav) et pour afficher la position du rendez-vous sur une carte IGN (par
-        défaut Iphigenie).&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Bien noter que :&lt;/b&gt;&lt;br /&gt;\t GumsBleau a besoin d\'un accès Internet pour se procurer les informations auprès de www.gumsparis.asso.fr puis il
-        les sauvegarde : elles restent disponibles jusqu\'au lendemain du jour de la sortie sans nécessiter de nouvelle connexion à Internet.
-        &lt;br /&gt;\t Cependant les applis de navigation et de cartographie auront généralement besoin d\'un accès à internet pour fonctionner.&lt;br /&gt;&lt;br /&gt;
-        &lt;b&gt;Choix d\'applis :&lt;/b&gt;&lt;br /&gt;\t L\'entrée de menu &lt;b&gt;Préférences&lt;/b&gt; permet de sélectionner d\'autres applis de navigation et de cartographie que celles choisies par défaut.
-        &lt;br /&gt;\t Noter que GumsBleau ne se chargera pas d\'installer ces applis à votre place !&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Contact&lt;/b&gt;&lt;br /&gt;
+    <string name="helptext">&lt;b&gt;Comment ça marche&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;En fonctionnement automatique : &lt;/b&gt;&lt;br /&gt;\tAu démarrage GumsBleau affiche les descriptifs d\'itinéraires pour rejoindre
+        le parking puis le rendez-vous de la sortie d\'escalade dominicale du GUMS de Paris. &lt;br /&gt;\tDeux boutons sont aussi disponibles pour obtenir un guidage jusqu\'au
+        parking par une appli de navigation et pour afficher la position du rendez-vous sur une carte IGN (par
+        défaut Iphigenie) ou OpenTopo (OruxMaps). Il est possible aussi de choisir une appli de navigation pour vélo (Komoot)
+        pour se rendre au rendez-vous au lieu de l\'appli de cartographie.&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Bien noter que :&lt;/b&gt;&lt;br /&gt;\t GumsBleau a besoin d\'un accès Internet
+        pour se procurer les informations auprès de www.gumsparis.asso.fr puis il les sauvegarde : elles restent disponibles jusqu\'au lendemain du jour de la sortie sans
+        nécessiter de nouvelle connexion à Internet.
+        &lt;br /&gt;\t Cependant les applis de navigation et de cartographie auront généralement besoin d\'un accès à internet pour fonctionner. En cliquant les boutons chez soi avant de
+        partir on permet à ces applis de charger les cartes dont elles auront besoin.&lt;br /&gt;&lt;br /&gt;
+        &lt;b&gt;Choix d\'applis :&lt;/b&gt;&lt;br /&gt;\t L\'entrée de menu &lt;b&gt;Préférences&lt;/b&gt; permet de définir le comportement du système pour le choix d\'une appli de navigation
+        et de sélectionner d\'autres applis de cartographie que celle choisie par défaut.&lt;br />
+        \t Noter que GumsBleau ne se chargera pas d\'installer ces applis à votre place !&lt;br /&gt;&lt;br /&gt;
+        &lt;b&gt;Choix d\'une autre destination :&lt;/b&gt;&lt;br /&gt;\t L\'entrée de  menu &lt;b&gt;Choisir une sortie&lt;/b&gt; permet de sélectionner une destination autre que la sortie de la semaine parmi la
+        cinquantaine de massifs
+        que fréquente le GUMS. En sélectionnant \"Automatique\" on revient à la sortie de la semaine.<br />&lt;br /&gt;
+        &lt;br /&gt;&lt;b&gt;Contact&lt;/b&gt;&lt;br /&gt;
         Pour toute question, remarque ou suggestion écrire à &lt;a href=\"mailto:appli.gumsbleau\@gumsparis.asso.fr\"&gt;
         appli.gumsbleau au Gums de Paris&lt;/a&gt;</string>
-    <string name="choixnav">&lt;b&gt;Choix appli de navigation vers le parking :&lt;/b&gt; &lt;br /&gt;Par défaut GumsBleau utilise GoogleMaps Nav. Cliquer pour en choisir une autre.</string>
+    <string name="choixnav">&lt;b&gt;Choix appli de navigation vers le parking :&lt;/b&gt; &lt;br /&gt;
+        Si la case n\'est pas cochée, GumsBleau utilise Google Maps. Cochez la case si vous voulez avoir le choix
+        entre les différentes applis de navigation installées sur votre smartphone.</string>
     <string name="choixcarto">&lt;b&gt;Choix appli de carte topographique pour localiser le rendez-vous :&lt;/b&gt; &lt;br /&gt;Par défaut GumsBleau utilise Iphigénie. Cliquer
-        pour changer. Toutes ces applis peuvent montrer la carte topographique IGN (fond TOP25) si vous possédez un abonnement. &lt;br /&gt;Il faut souscrire
-        cet abonnement à travers l\'appli ; il n\'est pas transférable entre applis.</string>
+        pour changer. Toutes ces applis sauf OruxMaps peuvent montrer la carte topographique IGN (fond TOP25) si vous possédez un abonnement. &lt;br /&gt;Il faut souscrire
+        cet abonnement à travers l\'appli ; il n\'est pas transférable entre applis.&lt;br /&gt;OruxMaps n\'a pas d\'accès aux cartes IGN en ligne. Il est possible de lui ajouter des cartes
+        fabriquées par l\'utilisateur en numérisant une carte sur papier. C\'est une procédure laborieuse.</string>
     <string name="title_activity_choix_applis">ChoixApplis</string>
     <string name="gmp">com.google.android.apps.maps</string>
     <string name="waz">com.waze</string>
@@ -39,5 +50,33 @@
     <string name="ifi">com.iphigenie</string>
     <string name="vrg">com.augmentra.viewranger.android</string>
     <string name="mtr">com.frogsparks.mytrails</string>
+    <string name="orx">com.orux.oruxmaps</string>
+    <string name="komt">de.komoot.android</string>
     <string name="sauvpref">OK</string>
+    <string name="title_activity_choix_sortie">Choisir une sortie</string>
+    <string name="choixsortie">Choisir une sortie</string>
+    <string name="choose">"Choisissez !</string>
+    <string name="chk_chooser">Offre de choix systématique</string>
+    <string name="title_activity_apropos">À propos du GUMS</string>
+    <string name="item_apropos">À propos du GUMS</string>
+    <string name="aproposdugums">Chaque dimanche et jour férié les membres du GUMS (Groupe Universitaire de MontSagne et de ski) de Paris se retrouvent pour grimper en forêt
+        de Fontainebleau sur un site de blocs défini à l\'avance. Ces rassemblements sont plutôt informels, sauf lors des stages de débutants, mais on s\'entraide et on se conseille.
+        Noter que &lt;b&gt;les membres disposent pour leur activité d\'une assurance&lt;/b&gt; dans le cadre des sorties du club.&lt;br /&gt;&lt;br /&gt;
+        Plus généralement, le GUMS propose à ses adhérents de découvrir le milieu naturel et montagnard sous toutes ses formes, pour y pratiquer de multiples activités : &lt;b&gt;alpinisme,
+        ski de montagne, escalade, randonnée pédestre, expéditions lointaines&lt;/b&gt;. Il s\'adresse à toutes et à tous, pour découvrir, ou affermir sa pratique, quelle que soit la
+        discipline pratiquée. Les activités se déroulent surtout en pleine nature (stages ou week-ends en montagne ou en falaise, rendez-vous le dimanche à Fontainebleau) mais
+        cela n\'exclut pas de se retrouver lors de séances d’entraînement sur des murs d\'escalade en ville.&lt;br /&gt;&lt;br /&gt;
+        Le GUMS tient à ce que ses adhérents aient une &lt;b&gt;pratique autonome et responsable de l\'activité&lt;/b&gt;. L\'organisation des sorties et leur encadrement étant assuré par les
+        cadres bénévoles du club, chacun se doit de contribuer à leur préparation (nourriture, matériel,..).&lt;br /&gt;&lt;br /&gt;
+        La formation, gage essentiel de sécurité dans ces activités à risque que sont les sports de montagne, est un aspect très important au GUMS. Le club encourage ses membres
+        les plus actifs à devenir des &lt;b&gt;cadres diplômés par les fédérations compétentes&lt;/b&gt;, et finance en partie leur participation aux stages de formation nécessaires.&lt;br /&gt;&lt;br /&gt;
+        Le GUMS souhaite aussi pratiquer une &lt;b&gt;solidarité active vis-à-vis des jeunes&lt;/b&gt;, dont les revenus faibles ou irréguliers constituent souvent une limitation importante
+        à la pratique de la montagne. C\'est ainsi que les jeunes bénéficient de réductions de prix très substantielles sur les cotisations et sur les activités organisées par
+        l\'association.&lt;br /&gt;&lt;br /&gt;
+        Enfin, le GUMS entend défendre le &lt;b&gt;respect et la préservation du milieu naturel&lt;/b&gt; qui sert de cadre à ses activités et qui est trop souvent menacé par des projets
+        d\'aménagements excessifs ou par l\'intrusion des loisirs motorisés.&lt;br /&gt;&lt;br /&gt;
+        Tout savoir sur le GUMS : &lt;a href="https://www.gumsparis.asso.fr/"&gt;https://www.gumsparis.asso.fr/&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
+        &lt;b&gt;Notification pour l\'utilisateur&lt;/b&gt; : votre utilisation de l\'appli GumsBleau se fait sous votre entière responsabilité. L\'appli GumsBleau est fournie
+        en l\'état sans aucune garantie de quelque nature que ce soit.</string>
+
 </resources>

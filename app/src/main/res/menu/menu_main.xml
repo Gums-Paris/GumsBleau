@@ -13,4 +13,14 @@
         android:orderInCategory="2"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/choix_sortie"
+        android:orderInCategory="3"
+        android:title="@string/choixsortie"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/apropos"
+        android:orderInCategory="3"
+        android:title="@string/item_apropos"
+        app:showAsAction="never" />
 </menu>

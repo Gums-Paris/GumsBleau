@@ -1,7 +1,8 @@
 package fr.gumsparis.gumsbleau;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +11,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.text.Html;
+import android.os.Handler;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -20,8 +22,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity  {
 
     ModelBleauInfo manipsInfo = null;
     TextView lieuSortie = null;
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     final static String PREF_FILE = "mesInfos";
     ProgressBar patience = null;
     static final String LIEU = "title";
-    static final String DATE = "dates";
+    static final String DATERV = "dates";
     static final String ITIPARK = "itiPark";
     static final String LATPARK = "latPark";
     static final String LONPARK = "lonPark";
@@ -44,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
     static final String LATRDV = "latRdV";
     static final String LONRDV = "lonRdV";
     static final String FLAG = "flag";
-    static final String APPLINAV = "appnav";
     static final String APPLICARTO = "appcarto";
+    static final String DATELISTE = "dateliste";
     boolean flagGPX = true;
+    String sortieChoisie = "";
 
 
     @Override
@@ -68,124 +73,210 @@ public class MainActivity extends AppCompatActivity {
         boutonRdV = findViewById(R.id.buttonrdv);
         patience = findViewById(R.id.indeterminateBar);
 
-// Mettre les applis par défaut pour nav et carto dans les préférences s'il n'y en a pas
-        mesPrefs = getApplicationContext().getSharedPreferences(PREF_FILE, MODE_PRIVATE);
+// au passage, création de l'instance de MyHelper qui va stocker le contexte de l'application. Cela permettra de
+// récupérer le context et donc en particulier les préférences de n'importe où en récupérant l'instance sans avoir
+//   à passer de contexte
+        mesPrefs =  MyHelper.getInstance(getApplicationContext()).recupPrefs();
         SharedPreferences.Editor editeur = mesPrefs.edit();
-        if (mesPrefs.getString(APPLINAV, null) == null) {
-            editeur.putString(APPLINAV, getString(R.string.gmp));
+// initialiser le choix d'appli de navigation à "ne pas offrir le choix"
+        if(!mesPrefs.contains("chooser")){
+            editeur.putString("chooser", "no");
             editeur.apply();
         }
+        getSystemService(CONNECTIVITY_SERVICE);
+        Aux.isNetworkReachable();
+// Faut parfois patienter un peu jusqu'à ce que le réseau soit disponible
+        patience.setVisibility(View.VISIBLE);
+        int count = 0;
+        if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "while "+Variables.isNetworkConnected);}
+        // nettoyage
+/*        while (!Variables.isNetworkConnected) {
+            new Handler().postDelayed(() -> {
+                //on attend que le temps passe
+            }, 20); // délai 0.02 sec
+            count++;
+            if (BuildConfig.DEBUG){
+                Log.i("GUMSBLO", "count = "+count);}
+            if (count > 1000) {
+                alerte("3");
+                break;
+ //               finish();
+            }
+        }   */
+        patience.setVisibility(View.GONE);
+// initialiser le paramètre de choix appli de navigation si nécessaire
+        if (mesPrefs.getString("chooser", null) == null) {
+            editeur.putString("chooser", "no");
+            editeur.apply();
+        }
+
+// Mettre l'appli par défaut pour carto dans les préférences s'il n'y en a pas
         if (mesPrefs.getString(APPLICARTO, null) == null) {
             editeur.putString(APPLICARTO, getString(R.string.ifi));
             editeur.apply();
+        }
+
+//initialise le flag "automatique"
+        editeur.putBoolean("auto", true);
+        editeur.apply();
+
+// récup intent if any pour choix de sortie
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.hasExtra("sortie")){
+                sortieChoisie = intent.getStringExtra("sortie");
+                editeur.putBoolean("auto", sortieChoisie.isEmpty());
+                editeur.putString(DATERV, "");
+                editeur.putString("sortiechoisie", sortieChoisie);
+                editeur.apply();
+            }
         }
 
 // patience est un cercle qui tourne jusqu'à disponibilité des infos pour faire patienter le client...
         patience.setVisibility(View.VISIBLE);
 
 // instanciation ou récupération du ViewModel qui gère les données
-        manipsInfo = ViewModelProviders.of(this).get(ModelBleauInfo.class);
-        Log.i("GUMSBLO", "modèle créé");
+        manipsInfo = new ViewModelProvider(this).get(ModelBleauInfo.class);
+        if (BuildConfig.DEBUG){
+        Log.i("GUMSBLO", "modèle créé");}
 
 // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
-        final Observer<String> flagObserver = new Observer<String>() {
-            @Override
-            public void onChanged(String newFlag) {
-                if (!newFlag.equals("0")) {
-                    alerte(newFlag);
-                }
+
+
+
+        final Observer<String> flagObserver = newFlag -> {
+//                patience.setVisibility(View.GONE);
+            if (!"0".equals(newFlag)) {
+                alerte(newFlag);
+
             }
         };
         manipsInfo.getFlagInfos().observe(MainActivity.this, flagObserver);
 
 // puis l'observateur des itinéraires parking et RdV
-        final Observer<String[]> valueObserver = new Observer<String[]>() {
-            @Override
-            public void onChanged(String[] newVal) {
-                String iP = newVal[0];
-                String iR = newVal[1];
+        final Observer<String[]> valueObserver = newVal -> {
+            String iP = newVal[0];
+            String iR = newVal[1];
 // on fait dsparaître la roue de patience et on affiche les itinéraires
-                patience.setVisibility(View.GONE);
-                if (iP != null) {
-                    String itp = getString(R.string.iti_park)+iP;
-                    parking.setBackgroundColor(getResources().getColor(R.color.colorItiPark));
-                    parking.setText(Html.fromHtml(itp));
-                }
-                if (iR != null) {
-                    rendezvous.setBackgroundColor(getResources().getColor(R.color.colorItiRdV));
-                    rendezvous.setText(Html.fromHtml(getString(R.string.iti_rdv)+iR));
-                }
+            patience.setVisibility(View.GONE);
+            if (iP != null) {
+                String itp = getString(R.string.iti_park)+iP;
+                parking.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorItiPark));
+                parking.setText(Aux.fromHtml(itp));
+            }
+            if (iR != null) {
+                rendezvous.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorItiRdV));
+                rendezvous.setText(Aux.fromHtml(getString(R.string.iti_rdv)+iR));
+                rendezvous.setMovementMethod(LinkMovementMethod.getInstance());
             }
         };
         manipsInfo.getInfosSortie().observe(MainActivity.this, valueObserver);
 
 // puis l'observateur du lieu de lasortie
-        final Observer<String> lieuObserver = new Observer<String>() {
-            @Override
-            public void onChanged(String newLieu) {
-                if (newLieu != null) {
-                    String sl = "<b><big>"+newLieu+"</big></b>";
-                    lieuSortie.setTextColor(getResources().getColor(R.color.rougeGums));
-                    lieuSortie.setText(Html.fromHtml(sl));
-                }
+        final Observer<String> lieuObserver = newLieu -> {
+            if (newLieu != null) {
+                String sl = "<b><big>"+newLieu+"</big></b>";
+                lieuSortie.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.rougeGums));
+                lieuSortie.setText(Aux.fromHtml(sl));
             }
         };
         manipsInfo.getLieuSortie().observe(MainActivity.this, lieuObserver);
 
 // puis l'observateur de la date de la sortie
-        final Observer<String> dateObserver = new Observer<String>() {
-            @Override
-            public void onChanged(String newDate) {
-                if (newDate != null) {
-                    String sd = "<b><big>"+newDate+"</big></b>";
-                    dateSortie.setTextColor(getResources().getColor(R.color.rougeGums));
-                    dateSortie.setText(Html.fromHtml(sd));
-                }
+        final Observer<String> dateObserver = newDate -> {
+            if (newDate != null) {
+                String sd = "<b><big>"+newDate+"</big></b>";
+                dateSortie.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.rougeGums));
+                dateSortie.setText(Aux.fromHtml(sd));
             }
         };
         manipsInfo.getDateSortie().observe(MainActivity.this, dateObserver);
 
+// créer fichier latlon.gpx pour les besoins de Iphigénie (août 2019)
+        if(!AuxGPX.faitFichierGPX()) flagGPX = false;
+
 // enfin, les deux boutons
 
-        boutonPark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /* pour envoi intent à l'appli nav : itinéraire jusqu'au parking*/
-                String appli = mesPrefs.getString(APPLINAV, getString(R.string.gmp));
-                String laP = mesPrefs.getString(LATPARK, null);
-                String LoP = mesPrefs.getString(LONPARK, null);
+        boutonPark.setOnClickListener((View v) -> {
+            // pour envoi intent à l'appli nav : itinéraire jusqu'au parking si coordonnées OK
+            String laP = mesPrefs.getString(LATPARK, null);
+            String LoP = mesPrefs.getString(LONPARK, null);
+            if (!("".equals(laP)) && !("".equals(LoP))) {
                 Uri gmmIntentUri = Uri.parse("google.navigation:q=" + laP + "," + LoP);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage(appli);
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                String choisir = mesPrefs.getString("chooser", null);
+                if ("yes".equals(choisir)) {
+                    String titre = "Choisir une appli de guidage routier";
+                    Intent chooser = Intent.createChooser(mapIntent, titre);
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(chooser);
+                    }
+                } else if (mapIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(mapIntent);
                 } else {
                     Toast.makeText(MainActivity.this, "Appli de navigation non disponible", Toast.LENGTH_LONG).show();
                 }
+            }else{
+                alerte("noPK");
             }
         });
 
-        boutonRdV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /* pour envoi intent à l'appli carto : position du rendez-vous*/
-                String appli = mesPrefs.getString(APPLICARTO, getString(R.string.ifi));
-                String laR = mesPrefs.getString(LATRDV, null);
-                String LoR = mesPrefs.getString(LONRDV, null);
-                Uri cartoIntentUri = null;
+        boutonRdV.setOnClickListener((View v) -> {
+            // pour envoi intent à l'appli carto : position du rendez-vous si coordonnées OK
+            String appli = mesPrefs.getString(APPLICARTO, getString(R.string.ifi));
+            String laR = mesPrefs.getString(LATRDV, null);
+            String LoR = mesPrefs.getString(LONRDV, null);
+            String laP = mesPrefs.getString(LATPARK, null);
+            String LoP = mesPrefs.getString(LONPARK, null);
+            if (BuildConfig.DEBUG) {
+                Log.i("GUMSBLO", "coord RV " + laR + "  " + LoR);
+            }
+            if (!("".equals(laR)) && !("".equals(LoR))) {
+                Uri cartoIntentUri;
                 Intent cartoIntent = null;
-                cartoIntentUri = Uri.parse("geo:" + laR + "," + LoR);
-                cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
-                Log.i("GUMSBLO", "Intent= " + cartoIntent.toString());
-                cartoIntent.setPackage(appli);
-                if (cartoIntent.resolveActivity(getPackageManager()) != null) {
-                    Log.i("GUMSBLO", "6 lancement carto");
-                    startActivity(cartoIntent);
-                } else {
-                    Toast.makeText(MainActivity.this, "Appli de carte topo non disponible", Toast.LENGTH_LONG).show();
+                if ("com.iphigenie".equals(appli)) {
+                    if (flagGPX && AuxGPX.faitURI(laR, LoR, laP, LoP) != null) {
+                        cartoIntentUri = AuxGPX.faitURI(laR, LoR, laP, LoP);
+                        if (BuildConfig.DEBUG) {
+                            Log.i("GUMSBLO", "4 URI carto= ");
+                        }
+                        cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
+                        cartoIntent.setPackage(appli);
+                        cartoIntent.setFlags(FLAG_GRANT_READ_URI_PERMISSION);
+                        if (BuildConfig.DEBUG) {
+                            Log.i("GUMSBLO", "5 Intent carto= " + cartoIntent.toString());
+                        }
+                    } else {
+                        Toast.makeText(MainActivity.this, "Cette appli ne peut pas être utilisée", Toast.LENGTH_LONG).show();
+                    }
+                }else if("de.komoot.android".equals(appli)){
+                    cartoIntentUri = Uri.parse("google.navigation:q=" + laR + "," + LoR);
+                    cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
+                    cartoIntent.setPackage(appli);
                 }
+                else {
+                    cartoIntentUri = Uri.parse("geo:" + laR + "," + LoR);
+                    cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
+                    cartoIntent.setPackage(appli);
+                }
+                if (cartoIntent != null) {
+                    if (cartoIntent.resolveActivity(getPackageManager()) != null) {
+                        if (BuildConfig.DEBUG) {
+                            Log.i("GUMSBLO", "6 lancement carto");
+                        }
+                        startActivity(cartoIntent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Appli de carte topo non disponible", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Signaler problème aux développeurs", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                alerte("noRV");
             }
         });
+
     }
 
 //affichage dialogue d'alerte si problème de disponibilité des infos
@@ -200,6 +291,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "3" :
                 message = getString(R.string.pas_contact);
+                break;
+            case "noPK":
+                message = "Coordonnées parking inutilisables";
+                break;
+            case "noRV":
+                message = "Coordonnées rendez-vous inutilisables";
         }
         DialogAlertes infoUtilisateur = DialogAlertes.newInstance(message);
         infoUtilisateur.show(getSupportFragmentManager(), "infoutilisateur");
@@ -226,6 +323,16 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent choisirPrefs = new Intent(MainActivity.this, ChoixApplis.class);
             startActivity(choisirPrefs);
+            return true;
+        }
+        if (id == R.id.choix_sortie) {
+            Intent choisirSortie = new Intent(MainActivity.this, ChoixSortie.class);
+            startActivity(choisirSortie);
+            return true;
+        }
+        if (id == R.id.apropos) {
+            Intent lireAPropos = new Intent(MainActivity.this, APropos.class);
+            startActivity(lireAPropos);
             return true;
         }
         return super.onOptionsItemSelected(item);

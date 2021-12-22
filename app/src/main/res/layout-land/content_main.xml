@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -99,27 +100,28 @@
             android:id="@+id/infordv"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:text="@string/note_rdv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonnav" />
+            app:layout_constraintTop_toBottomOf="@id/itipark" />
 
         <TextView
             android:id="@+id/itirdv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:paddingTop="3dp"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:text="@string/iti_rdv"
+            android:textIsSelectable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/infordv"
-            app:layout_constraintTop_toBottomOf="@+id/buttonnav" />
+            app:layout_constraintTop_toBottomOf="@+id/itipark" />
 
         <Button
             android:id="@+id/buttonrdv"

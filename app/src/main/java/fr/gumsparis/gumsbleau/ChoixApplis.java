@@ -6,33 +6,30 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.text.Html;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import static fr.gumsparis.gumsbleau.MainActivity.APPLINAV;
 import static fr.gumsparis.gumsbleau.MainActivity.APPLICARTO;
-
 
 public class ChoixApplis extends AppCompatActivity {
 
-// pour sélectionner l'appli de guidage vers le parking et celle de carte topographique pour le RdV
-    // et stocker les noms de paquets dans les préférences
+// pour sélectionner l'appli de  carte topographique pour le RdV et stocker le nom dans les préférences
 
     TextView choixnav = null;
+    CheckBox casenav = null;
     TextView choixcarto = null;
-    RadioGroup rgNav = null;
-    RadioButton gmp = null;
-    RadioButton waz = null;
-    RadioButton her = null;
     RadioGroup rgCarto = null;
     RadioButton ifi = null;
     RadioButton vrg = null;
     RadioButton mtr = null;
+    RadioButton orx = null;
+    RadioButton komt = null;
     Button terminer = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,79 +40,57 @@ public class ChoixApplis extends AppCompatActivity {
 
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         final SharedPreferences.Editor  editeur = mesPrefs.edit();
-        String applinav = mesPrefs.getString(APPLINAV, getString(R.string.gmp));
         String applicarto = mesPrefs.getString(APPLICARTO, getString(R.string.ifi));
 
         choixnav = findViewById(R.id.choixnav);
-        rgNav = findViewById(R.id.groupnav);
-        gmp = findViewById(R.id.gmaps);
-        waz = findViewById(R.id.waze);
-        her = findViewById(R.id.herewg);
+        casenav = findViewById(R.id.chkChooser);
         choixcarto = findViewById(R.id.choixcarto);
         rgCarto = findViewById(R.id.groupcarto);
         ifi = findViewById(R.id.iphi);
         vrg = findViewById(R.id.vranger);
         mtr =  findViewById(R.id.mtrails);
+        orx = findViewById(R.id.orux);
+        komt = findViewById(R.id.komoot);
         terminer = findViewById(R.id.buttonfin);
 
-//        choixnav.setText(getString(R.string.choixnav));
-        choixnav.setText(Html.fromHtml(getString(R.string.choixnav)));
-//        choixcarto.setText(getString(R.string.choixcarto));
-        choixcarto.setText(Html.fromHtml(getString(R.string.choixcarto)));
-
-        if(getString(R.string.gmp).equals(applinav)) {gmp.setChecked(true);}
-        else if(getString(R.string.waz).equals(applinav)) {waz.setChecked(true);}
-        else if(getString(R.string.her).equals(applinav)) {her.setChecked(true);}
-
-        rgNav.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
-                    case R.id.gmaps:
-                        editeur.putString(APPLINAV, getString(R.string.gmp));
- //                       gmp.setChecked(true);
-                        break;
-                    case R.id.waze:
-                        editeur.putString(APPLINAV, getString(R.string.waz));
- //                       gmp.setChecked(true);
-                        break;
-                    case R.id.herewg:
-                        editeur.putString(APPLINAV, getString(R.string.her));
-//                        gmp.setChecked(true);
-                        break;
-                }
+// choix du comportement pour le choix de l'applide navigation
+        choixnav.setText(Aux.fromHtml(getString(R.string.choixnav)));
+        if ("yes".equals(mesPrefs.getString("chooser", null))){casenav.setChecked(true);}
+        casenav.setOnClickListener(v -> {
+            if (((CheckBox)v).isChecked()) {
+                editeur.putString("chooser", "yes");
+                editeur.apply();
+            }else{
+                editeur.putString("chooser", "no");
                 editeur.apply();
             }
         });
+
+// choix d'une appli pour la cartographie autour du rendez-vous
+        choixcarto.setText(Aux.fromHtml(getString(R.string.choixcarto)));
 
         if(getString(R.string.ifi).equals(applicarto)) {ifi.setChecked(true);}
         else if(getString(R.string.vrg).equals(applicarto)) {vrg.setChecked(true);}
         else if(getString(R.string.mtr).equals(applicarto)) {mtr.setChecked(true);}
+        else if(getString(R.string.orx).equals(applicarto)) {orx.setChecked(true);}
+        else if(getString(R.string.komt).equals(applicarto)) {komt.setChecked(true);}
 
-        rgCarto.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
-                    case R.id.iphi:
-                        editeur.putString(APPLICARTO, getString(R.string.ifi));
-                        break;
-                    case R.id.vranger:
-                        editeur.putString(APPLICARTO, getString(R.string.vrg));
-                        break;
-                    case R.id.mtrails:
-                        editeur.putString(APPLICARTO, getString(R.string.mtr));
-                        break;
-                }
-                editeur.apply();
+        rgCarto.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.iphi) {
+                editeur.putString(APPLICARTO, getString(R.string.ifi));
+            }else if (checkedId == R.id.vranger) {
+                editeur.putString(APPLICARTO, getString(R.string.vrg));
+            }else if (checkedId == R.id.mtrails) {
+                editeur.putString(APPLICARTO, getString(R.string.mtr));
+            }else if (checkedId == R.id.orux){
+                editeur.putString(APPLICARTO, getString(R.string.orx));
+            }else if (checkedId == R.id.komoot){
+                editeur.putString(APPLICARTO, getString(R.string.komt));
             }
+            editeur.apply();
         });
 
-        terminer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        terminer.setOnClickListener(v -> finish());
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
