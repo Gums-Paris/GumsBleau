@@ -88,11 +88,15 @@ public class MainActivity extends AppCompatActivity  {
 // Faut parfois patienter un peu jusqu'à ce que le réseau soit disponible
         patience.setVisibility(View.VISIBLE);
         int count = 0;
+        if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "while "+Variables.isNetworkConnected);}
         while (!Variables.isNetworkConnected) {
             new Handler().postDelayed(() -> {
                 //on attend que le temps passe
             }, 20); // délai 0.02 sec
             count++;
+            if (BuildConfig.DEBUG){
+                Log.i("GUMSBLO", "count = "+count);}
             if (count > 1000) {
                 alerte("3");
                 break;

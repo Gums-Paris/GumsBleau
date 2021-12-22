@@ -32,7 +32,7 @@ class Aux {
         }
     }
 
-/*    static boolean isNetworkReachable(Context context) {
+    /*    static boolean isNetworkReachable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -43,6 +43,7 @@ class Aux {
         ConnectivityManager connectivityManager
                 = MyHelper.getInstance().conMan();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            Log.i("GUMSBLO", "SDK < Q" );
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
             Variables.isNetworkConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
         }else {
@@ -50,12 +51,12 @@ class Aux {
                 connectivityManager.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
                        @Override
                        public void onAvailable(@NonNull Network network) {
-                           Log.i("SECUSERV", "on available " );
+                           Log.i("GUMSBLO", "on available " );
                            Variables.isNetworkConnected = true; // Global Static Variable
                        }
                        @Override
                        public void onLost(@NonNull Network network) {
-                           Log.i("SECUSERV", "on lost " );
+                           Log.i("GUMSBLO", "on lost " );
                            Variables.isNetworkConnected = false; // Global Static Variable
                        }
                    }
