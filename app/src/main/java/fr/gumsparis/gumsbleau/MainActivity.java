@@ -11,7 +11,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.Handler;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -83,28 +82,16 @@ public class MainActivity extends AppCompatActivity  {
             editeur.putString("chooser", "no");
             editeur.apply();
         }
+
+// verif internet OK et démarre surveillance réseau
         getSystemService(CONNECTIVITY_SERVICE);
+        if (!Variables.isNetworkConnected) {
+            Variables.isNetworkConnected = Aux.isInternetOK();
+        }
         Aux.isNetworkReachable();
-// Faut parfois patienter un peu jusqu'à ce que le réseau soit disponible
-        patience.setVisibility(View.VISIBLE);
-        int count = 0;
         if (BuildConfig.DEBUG){
-            Log.i("GUMSBLO", "while "+Variables.isNetworkConnected);}
-        // nettoyage
-/*        while (!Variables.isNetworkConnected) {
-            new Handler().postDelayed(() -> {
-                //on attend que le temps passe
-            }, 20); // délai 0.02 sec
-            count++;
-            if (BuildConfig.DEBUG){
-                Log.i("GUMSBLO", "count = "+count);}
-            if (count > 1000) {
-                alerte("3");
-                break;
- //               finish();
-            }
-        }   */
-        patience.setVisibility(View.GONE);
+            Log.i("GUMSBLO", "internet "+Variables.isNetworkConnected);}
+
 // initialiser le paramètre de choix appli de navigation si nécessaire
         if (mesPrefs.getString("chooser", null) == null) {
             editeur.putString("chooser", "no");
@@ -117,7 +104,7 @@ public class MainActivity extends AppCompatActivity  {
             editeur.apply();
         }
 
-//initialise le flag "automatique"
+//initialise le flag "automatique" our choix de sortie
         editeur.putBoolean("auto", true);
         editeur.apply();
 
@@ -142,14 +129,9 @@ public class MainActivity extends AppCompatActivity  {
         Log.i("GUMSBLO", "modèle créé");}
 
 // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
-
-
-
         final Observer<String> flagObserver = newFlag -> {
-//                patience.setVisibility(View.GONE);
             if (!"0".equals(newFlag)) {
                 alerte(newFlag);
-
             }
         };
         manipsInfo.getFlagInfos().observe(MainActivity.this, flagObserver);

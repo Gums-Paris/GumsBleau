@@ -2,6 +2,7 @@ package fr.gumsparis.gumsbleau;
 
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.text.Html;
@@ -32,6 +33,24 @@ class Aux {
         }
     }
 
+/* Pour fonctionner avec API 23
+* https://medium.com/dsc-alexandria/implementing-internet-connectivity-checker-in-android-apps-bf28230c4e86 */
+    public static boolean isInternetOK() {
+        ConnectivityManager cm = MyHelper.getInstance().conMan();
+        if (cm == null) return false;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            Log.i("GUMSBLO", "SDK < Q" );
+            NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+            return ( activeNetworkInfo != null && activeNetworkInfo.isConnected());
+        }else {
+            Network[] networks = cm.getAllNetworks();
+            for (Network n : networks) {
+                NetworkCapabilities cap = cm.getNetworkCapabilities(n);
+                return cap.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+            }
+        }
+        return false;
+    }
     /*    static boolean isNetworkReachable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
