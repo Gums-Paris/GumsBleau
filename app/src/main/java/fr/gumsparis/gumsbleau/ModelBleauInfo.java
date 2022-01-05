@@ -50,7 +50,9 @@ public class ModelBleauInfo extends AndroidViewModel {
 
         if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 1)) {
             if (Variables.isNetworkConnected) {
-                new PrendreInfosSortie().execute(urlContact);
+
+//                new PrendreInfosSortie().execute(urlContact);
+                Aux.recupInfo(urlContact, "sortie");
             }
         } else {
             getInfosFromPrefs();
