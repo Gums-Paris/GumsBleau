@@ -1,11 +1,14 @@
 package fr.gumsparis.gumsbleau;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import java.util.Objects;
 
 public class DialogAlertes extends DialogFragment {
 
@@ -37,7 +40,11 @@ public class DialogAlertes extends DialogFragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireActivity());
         alertDialogBuilder.setMessage(message);
 
-        alertDialogBuilder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+//        alertDialogBuilder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+        alertDialogBuilder.setPositiveButton("OK", (dialogInterface, i) -> {
+            Objects.requireNonNull(getDialog()).dismiss();
+            requireActivity().finish();
+        });
 
         return alertDialogBuilder.create();
 

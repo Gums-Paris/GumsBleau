@@ -128,7 +128,7 @@ class Aux {
 //extraire infos de sortie du json
     static void decodeInfosSortie(String result){
         if (BuildConfig.DEBUG){
-            Log.i("GUMSBLO", "dans postexecute de sortie");}
+            Log.i("GUMSBLO", "dans decode infos sortie");}
         String[] itis = new String[2];
         String lieu = "";
         String date = "";
@@ -189,7 +189,7 @@ class Aux {
 //extraire la liste du json
     static void decodeInfosListe(String result){
         if (BuildConfig.DEBUG){
-            Log.i("GUMSBLO", "onPostde liste"+result);}
+            Log.i("GUMSBLO", "decode infos liste"+result);}
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         SharedPreferences.Editor  editeur = mesPrefs.edit();
         if (result.equals("netOUT")) {
@@ -254,6 +254,16 @@ class Aux {
             ModelBleauListe.flagListe.setValue(false);
             e.printStackTrace();
         }
+    }
+
+    // test égalité de chaînes. Cette version considère que (null == null) est false
+    static boolean egaliteChaines(String ch1, String ch2) {
+        return (ch1 != null && ch1.equals(ch2));
+    }
+
+    // teste si la chaîne str est vide ou null
+    public static boolean isEmptyString(String str) {
+        return (str == null || str.isEmpty());
     }
 
 }

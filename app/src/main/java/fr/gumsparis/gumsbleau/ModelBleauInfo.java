@@ -17,7 +17,7 @@ import static fr.gumsparis.gumsbleau.MainActivity.FLAG;
 public class ModelBleauInfo extends AndroidViewModel {
 
     static MutableLiveData<String[]> infosSortie = new MutableLiveData<>();
-    static MutableLiveData<String>flagInfo = new MutableLiveData<>();
+    static SingleLiveEvent<String>flagInfo = new SingleLiveEvent<>();
     static MutableLiveData<String>lieuSortie = new MutableLiveData<>();
     static MutableLiveData<String>dateSortie = new MutableLiveData<>();
 
@@ -49,12 +49,10 @@ public class ModelBleauInfo extends AndroidViewModel {
         Log.i("GUMSBLO", "peremption =  "+Aux.datePast(mesPrefs.getString(DATERV,""), 1));}
 
         if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 1)) {
-            if (Variables.isNetworkConnected) {
-
-//                new PrendreInfosSortie().execute(urlContact);
+                Log.i("GUMSBLO", "modelsortie reso =  ");
                 Aux.recupInfo(urlContact, "sortie");
-            }
         } else {
+            Log.i("GUMSBLO", "modelsortie prefs =  ");
             getInfosFromPrefs();
         }
     }
@@ -84,12 +82,16 @@ public class ModelBleauInfo extends AndroidViewModel {
     private void getInfosFromPrefs() {
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         String[] iti = new String[2];
-        lieuSortie.setValue(mesPrefs.getString(LIEU, null));
-        dateSortie.setValue(mesPrefs.getString(DATERV, null));
-        iti[0] = mesPrefs.getString(ITIPARK, null);
-        iti[1] = mesPrefs.getString(ITIRDV, null);
-        infosSortie.setValue(iti);
-        flagInfo.setValue(mesPrefs.getString(FLAG, null));
+        if (Aux.isEmptyString(mesPrefs.getString(ITIPARK, null)) && Aux.isEmptyString(iti[1] = mesPrefs.getString(ITIRDV, null))) {
+            flagInfo.setValue("2");
+        } else {
+            lieuSortie.setValue(mesPrefs.getString(LIEU, null));
+            dateSortie.setValue(mesPrefs.getString(DATERV, null));
+            iti[0] = mesPrefs.getString(ITIPARK, null);
+            iti[1] = mesPrefs.getString(ITIRDV, null);
+            infosSortie.setValue(iti);
+            flagInfo.setValue(mesPrefs.getString(FLAG, null));
+        }
     }
 
 

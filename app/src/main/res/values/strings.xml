@@ -15,7 +15,7 @@
     <string name="info_rdv">Si vous avez une appli de carte topographique cliquez RENDEZ-VOUS. Cela ouvrira une carte IGN
         (abonnement payant nécessaire) ou OST centrée sur le rendez-vous.</string>
     <string name="pas_contact">Je ne peux rien faire ! Je n\'ai pas eu le contact avec gumsparis.asso.fr</string>
-    <string name="pas_infos">Je ne peux rien faire ! Je n\'ai pas reçu d\'informations de la part de gumsparis.asso.fr</string>
+    <string name="pas_infos">Je ne peux rien faire ! Je n\'ai aucune information</string>
     <string name="infos_partielles">Infos incomplètes ou mal formatées. Il y aura des problèmes d\'affichage ou de fonctionnalités</string>
     <string name="title_activity_aide">Aide</string>
     <string name="helptext">&lt;b&gt;Comment ça marche&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;En fonctionnement automatique : &lt;/b&gt;&lt;br /&gt;\tAu démarrage GumsBleau affiche les descriptifs d\'itinéraires pour rejoindre

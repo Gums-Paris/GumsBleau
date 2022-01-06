@@ -1,6 +1,7 @@
 package fr.gumsparis.gumsbleau;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -42,7 +43,14 @@ public class ChoixSortie extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
-        final Observer<Boolean> flagObserver = newFlag -> flagDeListe = newFlag;
+        final Observer<Boolean> flagObserver = newFlag -> {
+            flagDeListe = newFlag;
+            if (!newFlag) {
+                String message = getString(R.string.pas_infos);
+                DialogAlertes infoListe = DialogAlertes.newInstance(message);
+                infoListe.show(getSupportFragmentManager(), "infoliste");
+            }
+        };
         manipsListe.getFlagListe().observe(this, flagObserver);
 
     // puis l'observateur de la liste de lieus, affecter la liste à l'adapteur et l'adapteur à la recyclerView

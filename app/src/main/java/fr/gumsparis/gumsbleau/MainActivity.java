@@ -125,11 +125,10 @@ public class MainActivity extends AppCompatActivity  {
 
 // instanciation ou récupération du ViewModel qui gère les données
         manipsInfo = new ViewModelProvider(this).get(ModelBleauInfo.class);
-        if (BuildConfig.DEBUG){
-        Log.i("GUMSBLO", "modèle créé");}
 
 // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
         final Observer<String> flagObserver = newFlag -> {
+            Log.i("GUMSBLO", "obsflag =  "+newFlag);
             if (!"0".equals(newFlag)) {
                 alerte(newFlag);
             }
@@ -226,9 +225,6 @@ public class MainActivity extends AppCompatActivity  {
                         cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
                         cartoIntent.setPackage(appli);
                         cartoIntent.setFlags(FLAG_GRANT_READ_URI_PERMISSION);
-                        if (BuildConfig.DEBUG) {
-                            Log.i("GUMSBLO", "5 Intent carto= " + cartoIntent.toString());
-                        }
                     } else {
                         Toast.makeText(MainActivity.this, "Cette appli ne peut pas être utilisée", Toast.LENGTH_LONG).show();
                     }
@@ -244,9 +240,6 @@ public class MainActivity extends AppCompatActivity  {
                 }
                 if (cartoIntent != null) {
                     if (cartoIntent.resolveActivity(getPackageManager()) != null) {
-                        if (BuildConfig.DEBUG) {
-                            Log.i("GUMSBLO", "6 lancement carto");
-                        }
                         startActivity(cartoIntent);
                     } else {
                         Toast.makeText(MainActivity.this, "Appli de carte topo non disponible", Toast.LENGTH_LONG).show();

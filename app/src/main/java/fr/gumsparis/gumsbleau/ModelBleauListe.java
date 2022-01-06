@@ -2,6 +2,7 @@ package fr.gumsparis.gumsbleau;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
@@ -14,7 +15,7 @@ public class ModelBleauListe extends AndroidViewModel {
 
     static MutableLiveData<ArrayList<String>> nomLieu = new MutableLiveData<>();
     static MutableLiveData<ArrayList<String>> idArticle = new MutableLiveData<>();
-    static MutableLiveData<Boolean> flagListe = new MutableLiveData<>();
+    static SingleLiveEvent<Boolean> flagListe = new SingleLiveEvent<>();
 
 
     public ModelBleauListe (Application application) {
@@ -24,11 +25,7 @@ public class ModelBleauListe extends AndroidViewModel {
 
 // si la liste de sortie sauvegardée a plus d'une semaine on la redemande à gumsparis, sinon on sort la liste des prefs
         if (mesPrefs.getString(DATELISTE,null) == null || Aux.datePast(mesPrefs.getString(DATELISTE,null), 7)) {
-            if (Variables.isNetworkConnected) {
-
-  //              new PrendreInfosListe().execute(urlContact);
                 Aux.recupInfo(urlContact, "liste");
-            }
         } else {
             getListeFromPrefs();
         }
@@ -51,6 +48,8 @@ public class ModelBleauListe extends AndroidViewModel {
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         if (mesPrefs.getString("jsonListe", null) != null) {
             Aux.getListe(mesPrefs.getString("jsonListe", null));
+        }else{
+            flagListe.setValue(false);
         }
     }
 }
