@@ -1,7 +1,6 @@
 package fr.gumsparis.gumsbleau;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,9 +21,10 @@ public class DialogAlertes extends DialogFragment {
         // Empty constructor required for DialogFragment
     }
 
-    static DialogAlertes newInstance(String message) {
+    static DialogAlertes newInstance(String flag, String message) {
         DialogAlertes frag = new DialogAlertes();
         Bundle args = new Bundle();
+        args.putString("flag", flag);
         args.putString("message", message);
         frag.setArguments(args);
         return frag;
@@ -42,8 +42,12 @@ public class DialogAlertes extends DialogFragment {
 
 //        alertDialogBuilder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
         alertDialogBuilder.setPositiveButton("OK", (dialogInterface, i) -> {
+            if("2".equals(getArguments().getString("flag", ""))
+                    || "3".equals(getArguments().getString("flag", ""))
+                    || "false".equals(getArguments().getString("flag", ""))) {
+                requireActivity().finish();
+            }
             Objects.requireNonNull(getDialog()).dismiss();
-            requireActivity().finish();
         });
 
         return alertDialogBuilder.create();

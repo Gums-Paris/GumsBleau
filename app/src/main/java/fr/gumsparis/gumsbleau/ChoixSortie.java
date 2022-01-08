@@ -1,7 +1,6 @@
 package fr.gumsparis.gumsbleau;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -18,6 +17,7 @@ public class ChoixSortie extends AppCompatActivity {
 
     ModelBleauListe manipsListe = null;
     Boolean flagDeListe;
+    String flag;
     ArrayList<String> listeNomLieu = new ArrayList<>();
     ArrayList<String> listeIdArticle = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -45,9 +45,10 @@ public class ChoixSortie extends AppCompatActivity {
     // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
         final Observer<Boolean> flagObserver = newFlag -> {
             flagDeListe = newFlag;
+            flag = newFlag.toString();
             if (!newFlag) {
                 String message = getString(R.string.pas_infos);
-                DialogAlertes infoListe = DialogAlertes.newInstance(message);
+                DialogAlertes infoListe = DialogAlertes.newInstance(flag, message);
                 infoListe.show(getSupportFragmentManager(), "infoliste");
             }
         };

@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity  {
     boolean flagGPX = true;
     String sortieChoisie = "";
 
+// TODO  modif dialogalertes pour message 2 ou 3 - publier MAJ 2.0.13 au début février
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,7 +274,7 @@ public class MainActivity extends AppCompatActivity  {
             case "noRV":
                 message = "Coordonnées rendez-vous inutilisables";
         }
-        DialogAlertes infoUtilisateur = DialogAlertes.newInstance(message);
+        DialogAlertes infoUtilisateur = DialogAlertes.newInstance(flag, message);
         infoUtilisateur.show(getSupportFragmentManager(), "infoutilisateur");
     }
 
@@ -313,3 +314,5 @@ public class MainActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 }
+
+//Toast.makeText(getActivity(), "Pas d'accès aux prefs", Toast.LENGTH_LONG).show();
