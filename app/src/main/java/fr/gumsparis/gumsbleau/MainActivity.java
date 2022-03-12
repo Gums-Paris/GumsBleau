@@ -4,8 +4,10 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,8 +53,10 @@ public class MainActivity extends AppCompatActivity  {
     static final String DATELISTE = "dateliste";
     boolean flagGPX = true;
     String sortieChoisie = "";
+    NetworkConnectionMonitor connectionMonitor;
 
-// TODO  modif dialogalertes pour message 2 ou 3 - publier MAJ 2.0.13 au début février
+// TODO
+//  publier version 18 (2.0.14) qui utilise NetworkConnectionMonitor
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,20 @@ public class MainActivity extends AppCompatActivity  {
         boutonRdV = findViewById(R.id.buttonrdv);
         patience = findViewById(R.id.indeterminateBar);
 
+// verif internet OK et mise en place de la surveillance réseau
+// avec la bidouille "conman" pour avoir l'état du réseau avant la création du modèle sinon la vérif n'a lieu
+        //que dans onResume
+        connectionMonitor = NetworkConnectionMonitor.getInstance(getApplicationContext());
+        ConnectivityManager conMan = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        Variables.isNetworkConnected = connectionMonitor.checkConnection(conMan);
+        connectionMonitor.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isConnected) {
+                if (BuildConfig.DEBUG) Log.i("GUMSBLO", "main conmon observe "+isConnected);
+                Variables.isNetworkConnected = isConnected;
+            }
+        });
+
 // au passage, création de l'instance de MyHelper qui va stocker le contexte de l'application. Cela permettra de
 // récupérer le context et donc en particulier les préférences de n'importe où en récupérant l'instance sans avoir
 //   à passer de contexte
@@ -85,13 +103,13 @@ public class MainActivity extends AppCompatActivity  {
         }
 
 // verif internet OK et démarre surveillance réseau
-        getSystemService(CONNECTIVITY_SERVICE);
+/*        getSystemService(CONNECTIVITY_SERVICE);
         if (!Variables.isNetworkConnected) {
             Variables.isNetworkConnected = Aux.isInternetOK();
         }
         Aux.isNetworkReachable();
         if (BuildConfig.DEBUG){
-            Log.i("GUMSBLO", "internet "+Variables.isNetworkConnected);}
+            Log.i("GUMSBLO", "internet "+Variables.isNetworkConnected);}   */
 
 // initialiser le paramètre de choix appli de navigation si nécessaire
         if (mesPrefs.getString("chooser", null) == null) {
@@ -129,7 +147,7 @@ public class MainActivity extends AppCompatActivity  {
 
 // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
         final Observer<String> flagObserver = newFlag -> {
-            Log.i("GUMSBLO", "obsflag =  "+newFlag);
+            if (BuildConfig.DEBUG) Log.i("GUMSBLO", "obsflag =  "+newFlag);
             if (!"0".equals(newFlag)) {
                 alerte(newFlag);
             }
@@ -253,9 +271,27 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+    }  // end onCreate
+
+    @Override
+    protected void onPause(){
+        if (Variables.isRegistered){
+            if (BuildConfig.DEBUG) Log.i("GUMSBLO", "onpause unregister");
+            connectionMonitor.unregisterDefaultNetworkCallback();
+            Variables.isRegistered=false;
+        }
+        super.onPause();
+    }
+// à partir de là on surveille la disponibilité d'Internet
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (BuildConfig.DEBUG) Log.i("GUMSBLO", "onresume register");
+        connectionMonitor.registerDefaultNetworkCallback();
+        Variables.isRegistered=true;
     }
 
-//affichage dialogue d'alerte si problème de disponibilité des infos
+    //affichage dialogue d'alerte si problème de disponibilité des infos
     protected void alerte(String flag) {
         String message = "";
         switch (flag) {

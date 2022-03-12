@@ -12,16 +12,10 @@ import static fr.gumsparis.gumsbleau.MainActivity.LONPARK;
 import static fr.gumsparis.gumsbleau.MainActivity.LONRDV;
 
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,53 +36,6 @@ class Aux {
             return Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY);
         } else {
             return Html.fromHtml(source);
-        }
-    }
-
-/* Pour fonctionner avec API 23
-* https://medium.com/dsc-alexandria/implementing-internet-connectivity-checker-in-android-apps-bf28230c4e86 */
-    public static boolean isInternetOK() {
-        ConnectivityManager cm = MyHelper.getInstance().conMan();
-        if (cm == null) return false;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            Log.i("GUMSBLO", "SDK < Q" );
-            NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
-            return ( activeNetworkInfo != null && activeNetworkInfo.isConnected());
-        }else {
-            Network[] networks = cm.getAllNetworks();
-            for (Network n : networks) {
-                NetworkCapabilities cap = cm.getNetworkCapabilities(n);
-                return cap.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
-            }
-        }
-        return false;
-    }
-
-    static void isNetworkReachable() {
-        ConnectivityManager connectivityManager
-                = MyHelper.getInstance().conMan();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            Log.i("GUMSBLO", "SDK < Q" );
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            Variables.isNetworkConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        }else {
-            try {
-                connectivityManager.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
-                       @Override
-                       public void onAvailable(@NonNull Network network) {
-                           Log.i("GUMSBLO", "on available " );
-                           Variables.isNetworkConnected = true; // Global Static Variable
-                       }
-                       @Override
-                       public void onLost(@NonNull Network network) {
-                           Log.i("GUMSBLO", "on lost " );
-                           Variables.isNetworkConnected = false; // Global Static Variable
-                       }
-                   }
-                );
-            } catch (Exception e) {
-                Variables.isNetworkConnected = false;
-            }
         }
     }
 

@@ -1,6 +1,7 @@
 package fr.gumsparis.gumsbleau;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -23,16 +24,34 @@ public class ChoixSortie extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter<MyAdapter.MyViewHolder> monAdapter;
     ProgressBar attente = null;
+    NetworkConnectionMonitor connectionMonitor;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_sortie);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         attente = findViewById(R.id.listIndeterminateBar);
         attente.setVisibility(View.VISIBLE);
 
-    // le model qui gère les données de la liste de sorties
+// verif internet OK et mise en place de la surveillance réseau
+// on arrive ici de puis Main, donc isNetworkConnected a déjà été positionné, mais comme ça coûte pas cher,
+// on remet la surveillance réseau en marche pendant le temps où l'utilisateur choisit sa sorte
+        connectionMonitor = NetworkConnectionMonitor.getInstance();
+        connectionMonitor.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isConnected) {
+                if (BuildConfig.DEBUG) Log.i("GUMSBLO", "choix conmon observe "+isConnected);
+                Variables.isNetworkConnected = isConnected;
+            }
+        });
+
+        // le model qui gère les données de la liste de sorties
         manipsListe = new ViewModelProvider(this).get(ModelBleauListe.class);
 
     // création de l'adapteur
@@ -74,9 +93,25 @@ public class ChoixSortie extends AppCompatActivity {
         };
         manipsListe.getListeArticles().observe(this, listeArticleObserver);
 
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+    } // end onCreate
 
+    @Override
+    protected void onPause(){
+        if (Variables.isRegistered){
+            if (BuildConfig.DEBUG) Log.i("GUMSBLO", "onpause unregister");
+            connectionMonitor.unregisterDefaultNetworkCallback();
+            Variables.isRegistered=false;
+        }
+        super.onPause();
     }
+    // à partir de là on surveille la disponibilité d'Internet
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (BuildConfig.DEBUG) Log.i("GUMSBLO", "onresume register");
+        connectionMonitor.registerDefaultNetworkCallback();
+        Variables.isRegistered=true;
+    }
+
+
 }
