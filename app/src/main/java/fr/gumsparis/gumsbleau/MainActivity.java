@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity  {
     NetworkConnectionMonitor connectionMonitor;
 
 // TODO
-//  publier version 18 (2.0.14) qui utilise NetworkConnectionMonitor
+//  rien en cours
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity  {
         boutonRdV = findViewById(R.id.buttonrdv);
         patience = findViewById(R.id.indeterminateBar);
 
-// verif internet OK et mise en place de la surveillance réseau
-// avec la bidouille "conman" pour avoir l'état du réseau avant la création du modèle sinon la vérif n'a lieu
-        //que dans onResume
+// verif internet OK et mise en place de la surveillance réseau qui sera activée dans onResume
+// avec la bidouille "conman" pour avoir l'état du réseau avant la création du modèle (qui va charger les données)
+// sinon la vérif n'a lieu que dans onResume
         connectionMonitor = NetworkConnectionMonitor.getInstance(getApplicationContext());
         ConnectivityManager conMan = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         Variables.isNetworkConnected = connectionMonitor.checkConnection(conMan);
