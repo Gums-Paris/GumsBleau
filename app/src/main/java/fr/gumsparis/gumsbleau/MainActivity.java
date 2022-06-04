@@ -1,6 +1,7 @@
 package fr.gumsparis.gumsbleau;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Environment;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+
+import java.io.File;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -54,6 +58,8 @@ public class MainActivity extends AppCompatActivity  {
     boolean flagGPX = true;
     String sortieChoisie = "";
     NetworkConnectionMonitor connectionMonitor;
+    File mFile = null;
+    static final private String LATLON_RV = "latlon.gpx";
 
 // TODO
 //  rien en cours
@@ -102,15 +108,6 @@ public class MainActivity extends AppCompatActivity  {
             editeur.apply();
         }
 
-// verif internet OK et démarre surveillance réseau
-/*        getSystemService(CONNECTIVITY_SERVICE);
-        if (!Variables.isNetworkConnected) {
-            Variables.isNetworkConnected = Aux.isInternetOK();
-        }
-        Aux.isNetworkReachable();
-        if (BuildConfig.DEBUG){
-            Log.i("GUMSBLO", "internet "+Variables.isNetworkConnected);}   */
-
 // initialiser le paramètre de choix appli de navigation si nécessaire
         if (mesPrefs.getString("chooser", null) == null) {
             editeur.putString("chooser", "no");
@@ -133,7 +130,7 @@ public class MainActivity extends AppCompatActivity  {
             if (intent.hasExtra("sortie")){
                 sortieChoisie = intent.getStringExtra("sortie");
                 editeur.putBoolean("auto", sortieChoisie.isEmpty());
-                editeur.putString(DATERV, "");
+                editeur.putString(DATERV, "2000-01-01");
                 editeur.putString("sortiechoisie", sortieChoisie);
                 editeur.apply();
             }
@@ -194,7 +191,12 @@ public class MainActivity extends AppCompatActivity  {
         manipsInfo.getDateSortie().observe(MainActivity.this, dateObserver);
 
 // créer fichier latlon.gpx pour les besoins de Iphigénie (août 2019)
-        if(!AuxGPX.faitFichierGPX()) flagGPX = false;
+        String state = Environment.getExternalStorageState();
+        if(Environment.MEDIA_MOUNTED.equals(state)) {
+            mFile = new File(this.getExternalFilesDir(null), LATLON_RV);
+            if (BuildConfig.DEBUG){
+                Log.i("GUMSBLO", "1  fichier "+mFile);}
+        }else{flagGPX = false;}
 
 // enfin, les deux boutons
 
@@ -236,10 +238,13 @@ public class MainActivity extends AppCompatActivity  {
                 Uri cartoIntentUri;
                 Intent cartoIntent = null;
                 if ("com.iphigenie".equals(appli)) {
-                    if (flagGPX && AuxGPX.faitURI(laR, LoR, laP, LoP) != null) {
-                        cartoIntentUri = AuxGPX.faitURI(laR, LoR, laP, LoP);
+                    boolean ecriture = AuxGPX.ecritFichier(laR, LoR, laP, LoP, mFile);
+/*                    if (BuildConfig.DEBUG) {
+                        Log.i("GUMSBLO", "flag, ecriture = "+flagGPX+", "+ecriture); }  */
+                    if (flagGPX && ecriture)  {
+                        cartoIntentUri = FileProvider.getUriForFile(this,"fr.gumsparis.gumsbleau.fileprovider", mFile);
                         if (BuildConfig.DEBUG) {
-                            Log.i("GUMSBLO", "4 URI carto= ");
+                            Log.i("GUMSBLO", "4 URI carto= "+cartoIntentUri);
                         }
                         cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
                         cartoIntent.setPackage(appli);

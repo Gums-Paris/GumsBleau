@@ -43,10 +43,10 @@ public class ModelBleauInfo extends AndroidViewModel {
             editeur.putString("sortiechoisie", "");
             editeur.apply();
          }
-        if (BuildConfig.DEBUG){
+/*        if (BuildConfig.DEBUG){
         Log.i("GUMSBLO", "choixSortie = "+choixSortie);
         Log.i("GUMSBLO", "DATERV = "+mesPrefs.getString(DATERV, ""));
-        Log.i("GUMSBLO", "peremption =  "+Aux.datePast(mesPrefs.getString(DATERV,""), 1));}
+        Log.i("GUMSBLO", "peremption =  "+Aux.datePast(mesPrefs.getString(DATERV,""), 1));} */
 
         if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 1)) {
                 Log.i("GUMSBLO", "modelsortie reso =  ");

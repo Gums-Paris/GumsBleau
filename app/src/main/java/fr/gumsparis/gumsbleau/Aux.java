@@ -71,7 +71,7 @@ class Aux {
             Log.i("GUMSBLO", "dans decode infos sortie");}
         String[] itis = new String[2];
         String lieu = "";
-        String date = "";
+        String date = "2000-01-01";
         String flag = "2";
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         SharedPreferences.Editor  editeur = mesPrefs.edit();
