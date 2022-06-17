@@ -237,10 +237,10 @@ public class MainActivity extends AppCompatActivity  {
             if (!("".equals(laR)) && !("".equals(LoR))) {
                 Uri cartoIntentUri;
                 Intent cartoIntent = null;
-                if ("com.iphigenie".equals(appli)) {
+/*                if ("com.iphigenie".equals(appli)) {
                     boolean ecriture = AuxGPX.ecritFichier(laR, LoR, laP, LoP, mFile);
-/*                    if (BuildConfig.DEBUG) {
-                        Log.i("GUMSBLO", "flag, ecriture = "+flagGPX+", "+ecriture); }  */
+//                    if (BuildConfig.DEBUG) {
+//                        Log.i("GUMSBLO", "flag, ecriture = "+flagGPX+", "+ecriture); }
                     if (flagGPX && ecriture)  {
                         cartoIntentUri = FileProvider.getUriForFile(this,"fr.gumsparis.gumsbleau.fileprovider", mFile);
                         if (BuildConfig.DEBUG) {
@@ -252,7 +252,8 @@ public class MainActivity extends AppCompatActivity  {
                     } else {
                         Toast.makeText(MainActivity.this, "Cette appli ne peut pas être utilisée", Toast.LENGTH_LONG).show();
                     }
-                }else if("de.komoot.android".equals(appli)){
+                }else if("de.komoot.android".equals(appli)){ */
+                if ("de.komoot.android".equals(appli)){
                     cartoIntentUri = Uri.parse("google.navigation:q=" + laR + "," + LoR);
                     cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
                     cartoIntent.setPackage(appli);
@@ -262,15 +263,15 @@ public class MainActivity extends AppCompatActivity  {
                     cartoIntent = new Intent(Intent.ACTION_VIEW, cartoIntentUri);
                     cartoIntent.setPackage(appli);
                 }
-                if (cartoIntent != null) {
+//                if (cartoIntent != null) {
                     if (cartoIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(cartoIntent);
                     } else {
                         Toast.makeText(MainActivity.this, "Appli de carte topo non disponible", Toast.LENGTH_LONG).show();
                     }
-                } else {
+/*                } else {
                     Toast.makeText(MainActivity.this, "Signaler problème aux développeurs", Toast.LENGTH_LONG).show();
-                }
+                } */
             }else{
                 alerte("noRV");
             }
