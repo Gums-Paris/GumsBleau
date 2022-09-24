@@ -3,8 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/futuritem_liste_background.xml" value="0.1885" />
+        <entry key="app/src/main/res/drawable/item_liste_background.xml" value="0.1895" />
+        <entry key="app/src/main/res/layout-land/content_list_futures.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_apropos.xml" value="0.22580645161290322" />
+        <entry key="app/src/main/res/layout/activity_choix_sortie.xml" value="0.15104166666666666" />
+        <entry key="app/src/main/res/layout/activity_list_futures.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.13854166666666667" />
+        <entry key="app/src/main/res/layout/content_choix_sortie.xml" value="0.15104166666666666" />
+        <entry key="app/src/main/res/layout/content_list_futures.xml" value="0.15" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/futuritem_liste.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/layout/item_liste.xml" value="0.28489583333333335" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.2875" />
       </map>
     </option>

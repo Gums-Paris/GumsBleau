@@ -89,12 +89,9 @@ public class MainActivity extends AppCompatActivity  {
         connectionMonitor = NetworkConnectionMonitor.getInstance(getApplicationContext());
         ConnectivityManager conMan = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         Variables.isNetworkConnected = connectionMonitor.checkConnection(conMan);
-        connectionMonitor.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isConnected) {
-                if (BuildConfig.DEBUG) Log.i("GUMSBLO", "main conmon observe "+isConnected);
-                Variables.isNetworkConnected = isConnected;
-            }
+        connectionMonitor.observe(this, isConnected -> {
+            if (BuildConfig.DEBUG) Log.i("GUMSBLO", "main conmon observe "+isConnected);
+            Variables.isNetworkConnected = isConnected;
         });
 
 // au passage, création de l'instance de MyHelper qui va stocker le contexte de l'application. Cela permettra de
@@ -211,9 +208,9 @@ public class MainActivity extends AppCompatActivity  {
                 if ("yes".equals(choisir)) {
                     String titre = "Choisir une appli de guidage routier";
                     Intent chooser = Intent.createChooser(mapIntent, titre);
-                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(chooser);
-                    }
+                   if (chooser.resolveActivity(getPackageManager()) != null) {
+                            startActivity(chooser);
+                        }
                 } else if (mapIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(mapIntent);
                 } else {
@@ -227,6 +224,9 @@ public class MainActivity extends AppCompatActivity  {
         boutonRdV.setOnClickListener((View v) -> {
             // pour envoi intent à l'appli carto : position du rendez-vous si coordonnées OK
             String appli = mesPrefs.getString(APPLICARTO, getString(R.string.ifi));
+            if (BuildConfig.DEBUG) {
+                Log.i("GUMSBLO", "appli carto " + appli);
+            }
             String laR = mesPrefs.getString(LATRDV, null);
             String LoR = mesPrefs.getString(LONRDV, null);
             String laP = mesPrefs.getString(LATPARK, null);
@@ -340,6 +340,11 @@ public class MainActivity extends AppCompatActivity  {
         if (id == R.id.action_settings) {
             Intent choisirPrefs = new Intent(MainActivity.this, ChoixApplis.class);
             startActivity(choisirPrefs);
+            return true;
+        }
+        if (id == R.id.sorties_futures) {
+            Intent lesFutures = new Intent(MainActivity.this, ListFutures.class);
+            startActivity(lesFutures);
             return true;
         }
         if (id == R.id.choix_sortie) {

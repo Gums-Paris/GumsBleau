@@ -19,8 +19,13 @@
         android:title="@string/choixsortie"
         app:showAsAction="never" />
     <item
+        android:id="@+id/sorties_futures"
+        android:orderInCategory="4"
+        android:title="@string/les_prochaines"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/apropos"
-        android:orderInCategory="3"
+        android:orderInCategory="5"
         android:title="@string/item_apropos"
         app:showAsAction="never" />
 </menu>

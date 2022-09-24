@@ -52,13 +52,18 @@ class Aux {
             if ("liste".equals(motif)) {
     // pour récupérer la lliste de sorties
                 taskRunner.executeAsync(new RecupInfosGums(taskParams), Aux::decodeInfosListe);
-                }else{
+            }else if("listefutures".equals(motif)) {
+    // pour récupérer la liste des sorties futures
+                taskRunner.executeAsync(new RecupInfosGums(taskParams), Aux::decodeInfosFutures);
+            }else{
     //pour récupérer les infos d'une sortie
                 taskRunner.executeAsync(new RecupInfosGums(taskParams), Aux::decodeInfosSortie);
                 }
         }else{
             if ("liste".equals(motif)) {
                 ModelBleauListe.flagListe.setValue(false);
+            }else if ("listefutures".equals(motif)) {
+                ModelBleauFutures.flagFutures.setValue(false);
             }else{
                 ModelBleauInfo.flagInfo.setValue("3");
             }
@@ -126,7 +131,7 @@ class Aux {
         }
     }
 
-//extraire la liste du json
+//extraire la liste des lieux de sorties du json
     static void decodeInfosListe(String result){
         if (BuildConfig.DEBUG){
             Log.i("GUMSBLO", "decode infos liste"+result);}
@@ -145,6 +150,17 @@ class Aux {
                 e.printStackTrace();
             }
             Aux.getListe(result);
+        }
+    }
+
+//extraire la liste des futures sorties du json
+    static void decodeInfosFutures(String result) {
+        if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "decode liste futures "+result);}
+        if (result.equals("netOUT")) {
+            ModelBleauFutures.flagFutures.setValue(false);
+        } else {
+            Aux.getFutures(result);
         }
     }
 
@@ -172,13 +188,40 @@ class Aux {
         return true;
     }
 
- // pour remplir les LiveData nomLieu et idArticle en décodant le json jsListe contenant la liste de sorties
+// décode le json des futures sorties
+    static void getFutures(String jsListe) {
+        ArrayList<Sortie> sortiesFutures = new ArrayList<>();
+        try {
+            JSONObject jsonGums = new JSONObject(jsListe);
+            JSONArray arrayGums = jsonGums.getJSONArray("liste");
+            for (int i = 0; i < arrayGums.length(); i++) {
+                Sortie uneSortie = new Sortie();
+                JSONObject temp = arrayGums.getJSONObject(i);
+                if (temp.opt("dates") != null){
+                    uneSortie.setDateSortie(temp.optString("dates"));
+                }
+                if (temp.opt("title") != null) {
+                    uneSortie.setLieuSortie(temp.optString("title"));
+                }
+                if (temp.opt("articleId") != null) {
+                    uneSortie.setNumArticle(temp.optString("articleId"));
+                }
+                sortiesFutures.add(uneSortie);
+            }
+            ModelBleauFutures.listeFutures.setValue(sortiesFutures);
+            ModelBleauFutures.flagFutures.setValue(true);
+        } catch (JSONException e) {
+            ModelBleauFutures.flagFutures.setValue(false);
+            e.printStackTrace();
+        }
+    }
+
+ // pour remplir les LiveData nomLieu et idArticle en décodant le json jsListe contenant la liste de sorties GUMS
     static void getListe (String jsListe) {
         ArrayList<String> listeLieu = new ArrayList<>();
         ArrayList<String> listeArticle = new ArrayList<>();
         listeLieu.add("Automatique");
         listeArticle.add("");
-
         try {
             JSONObject jsonGums = new JSONObject(jsListe);
             JSONArray arrayGums = jsonGums.getJSONArray("liste");

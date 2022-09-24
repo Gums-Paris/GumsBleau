@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:text="Iphigenie"
             />
-        <RadioButton
+<!--        <RadioButton
             android:id="@+id/vranger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MyTrails"
-            />
+            />  -->
         <RadioButton
             android:id="@+id/orux"
             android:layout_width="wrap_content"

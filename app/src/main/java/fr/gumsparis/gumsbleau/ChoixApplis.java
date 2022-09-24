@@ -78,10 +78,10 @@ public class ChoixApplis extends AppCompatActivity {
         rgCarto.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.iphi) {
                 editeur.putString(APPLICARTO, getString(R.string.ifi));
-            }else if (checkedId == R.id.vranger) {
+/*            }else if (checkedId == R.id.vranger) {
                 editeur.putString(APPLICARTO, getString(R.string.vrg));
             }else if (checkedId == R.id.mtrails) {
-                editeur.putString(APPLICARTO, getString(R.string.mtr));
+                editeur.putString(APPLICARTO, getString(R.string.mtr)); */
             }else if (checkedId == R.id.orux){
                 editeur.putString(APPLICARTO, getString(R.string.orx));
             }else if (checkedId == R.id.komoot){

@@ -32,8 +32,9 @@
         \t Noter que GumsBleau ne se chargera pas d\'installer ces applis à votre place !&lt;br /&gt;&lt;br /&gt;
         &lt;b&gt;Choix d\'une autre destination :&lt;/b&gt;&lt;br /&gt;\t L\'entrée de  menu &lt;b&gt;Choisir une sortie&lt;/b&gt; permet de sélectionner une destination autre que la sortie de la semaine parmi la
         cinquantaine de massifs
-        que fréquente le GUMS. En sélectionnant \"Automatique\" on revient à la sortie de la semaine.<br />&lt;br /&gt;
-        &lt;br /&gt;&lt;b&gt;Contact&lt;/b&gt;&lt;br /&gt;
+        que fréquente le GUMS. En sélectionnant \"Automatique\" on revient à la sortie de la semaine.&lt;br /&gt;&lt;br /&gt;
+        &lt;b&gt;Les prochaines sorties :&lt;/b&gt;&lt;br /&gt;\t Il s\'agit des cinq prochaines sorties au programme du GUMS.&lt;br /&gt;&lt;br /&gt;
+        &lt;&lt;b&gt;Contact&lt;/b&gt;&lt;br /&gt;
         Pour toute question, remarque ou suggestion écrire à &lt;a href=\"mailto:appli.gumsbleau\@gumsparis.asso.fr\"&gt;
         appli.gumsbleau au Gums de Paris&lt;/a&gt;</string>
     <string name="choixnav">&lt;b&gt;Choix appli de navigation vers le parking :&lt;/b&gt; &lt;br /&gt;
@@ -54,8 +55,10 @@
     <string name="komt">de.komoot.android</string>
     <string name="sauvpref">OK</string>
     <string name="title_activity_choix_sortie">Choisir une sortie</string>
+    <string name="title_activity_list_futures">Prochaines sorties</string>
     <string name="choixsortie">Choisir une sortie</string>
     <string name="choose">"Choisissez !</string>
+    <string name="futures">&lt;b&gt;Les cinq prochaines sorties&lt;/b&gt; &lt;br /&gt;(les suivantes sont sur le site&lt;br /&gt; &lt;a href="https://www.gumsparis.asso.fr/"&gt;gumsparis.asso.fr&lt;/a&gt;)</string>
     <string name="chk_chooser">Offre de choix systématique</string>
     <string name="title_activity_apropos">À propos du GUMS</string>
     <string name="item_apropos">À propos du GUMS</string>
@@ -78,5 +81,7 @@
         Tout savoir sur le GUMS : &lt;a href="https://www.gumsparis.asso.fr/"&gt;https://www.gumsparis.asso.fr/&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
         &lt;b&gt;Notification pour l\'utilisateur&lt;/b&gt; : votre utilisation de l\'appli GumsBleau se fait sous votre entière responsabilité. L\'appli GumsBleau est fournie
         en l\'état sans aucune garantie de quelque nature que ce soit.</string>
+    <string name="affichesortie">  %1$s   %2$s</string>
+    <string name="les_prochaines">Les prochaines sorties</string>
 
 </resources>

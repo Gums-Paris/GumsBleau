@@ -42,7 +42,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             Intent choisi = new Intent(v.getContext(), MainActivity.class);
             choisi.putExtra("sortie", element);
             v.getContext().startActivity(choisi);
-
         }
     }
 
