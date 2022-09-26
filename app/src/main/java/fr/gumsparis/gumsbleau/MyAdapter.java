@@ -41,6 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             Log.i("GUMSBLO","idArticle = "+element);}
             Intent choisi = new Intent(v.getContext(), MainActivity.class);
             choisi.putExtra("sortie", element);
+            if (BuildConfig.DEBUG) Log.i("GUMSBLO", "intent envoyé list "+choisi);
             v.getContext().startActivity(choisi);
         }
     }

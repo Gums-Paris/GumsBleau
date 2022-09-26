@@ -20,41 +20,16 @@ public class ModelBleauInfo extends AndroidViewModel {
     static SingleLiveEvent<String>flagInfo = new SingleLiveEvent<>();
     static MutableLiveData<String>lieuSortie = new MutableLiveData<>();
     static MutableLiveData<String>dateSortie = new MutableLiveData<>();
+    SharedPreferences mesPrefs;
+    SharedPreferences.Editor editeur;
 
-    // Constructeur du modèle ; récupère les infos auprès de gumsparis ou des Shared Preferences
+    // Constructeur du modèle
     public ModelBleauInfo(@NonNull Application application) {
         super(application);
         if (BuildConfig.DEBUG){
         Log.i("GUMSBLO", "constructeur");}
-
-        SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
-        SharedPreferences.Editor editeur = mesPrefs.edit();
-        boolean choixSortie = false;
-
-// s'il y a eu choix de sortie ou n'y a pas d'info ou si l'info est périmée on va la chercher sur gumsparis,
-// sinon on la sort des SharedPrefs
-        String urlContact = UrlsGblo.SORTIE.getUrl();
-        String sortieChoisie = mesPrefs.getString("sortiechoisie", null);
-        if (BuildConfig.DEBUG){
-            Log.i("GUMSBLO", "sortie choisie "+sortieChoisie);}
-        if ((sortieChoisie!=null)&&!(sortieChoisie).isEmpty()) {
-            choixSortie = true;
-            urlContact = urlContact + "&idarticle=" + mesPrefs.getString("sortiechoisie", null);
-            editeur.putString("sortiechoisie", "");
-            editeur.apply();
-         }
-/*        if (BuildConfig.DEBUG){
-        Log.i("GUMSBLO", "choixSortie = "+choixSortie);
-        Log.i("GUMSBLO", "DATERV = "+mesPrefs.getString(DATERV, ""));
-        Log.i("GUMSBLO", "peremption =  "+Aux.datePast(mesPrefs.getString(DATERV,""), 1));} */
-
-        if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 1)) {
-                Log.i("GUMSBLO", "modelsortie reso =  ");
-                Aux.recupInfo(urlContact, "sortie");
-        } else {
-            Log.i("GUMSBLO", "modelsortie prefs =  ");
-            getInfosFromPrefs();
-        }
+        mesPrefs = MyHelper.getInstance().recupPrefs();
+        editeur = mesPrefs.edit();
     }
 
 // getter pour renvoyer la valeur de la LiveData infos
@@ -77,8 +52,31 @@ public class ModelBleauInfo extends AndroidViewModel {
         return dateSortie;
     }
 
+    protected void trouverInfos(){
+        boolean choixSortie = false;
+// s'il y a eu choix de sortie ou n'y a pas d'info ou si l'info est périmée on va la chercher sur gumsparis,
+// sinon on la sort des SharedPrefs
+        String urlContact = UrlsGblo.SORTIE.getUrl();
+        String sortieChoisie = mesPrefs.getString("sortiechoisie", null);
+        if (BuildConfig.DEBUG){
+            Log.i("GUMSBLO", "sortie choisie "+sortieChoisie);}
+        if ((sortieChoisie!=null)&&!(sortieChoisie).isEmpty()) {
+            choixSortie = true;
+            urlContact = urlContact + "&idarticle=" + mesPrefs.getString("sortiechoisie", null);
+            editeur.putString("sortiechoisie", "");
+            editeur.apply();
+         }
+        if (choixSortie || mesPrefs.getString(DATERV,null) == null || Aux.datePast(mesPrefs.getString(DATERV,null), 1)) {
+                Log.i("GUMSBLO", "trouverInfos reso =  ");
+                Aux.recupInfo(urlContact, "sortie");
+        } else {
+            Log.i("GUMSBLO", "trouverInfos prefs =  ");
+            getInfosFromPrefs();
+        }
+    }
 
-// pour extraire les données qui étaient sauvegardées dans SharedPreferences et les mettre en LiveData
+
+    // pour extraire les données qui étaient sauvegardées dans SharedPreferences et les mettre en LiveData
     private void getInfosFromPrefs() {
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         String[] iti = new String[2];
@@ -94,5 +92,9 @@ public class ModelBleauInfo extends AndroidViewModel {
         }
     }
 
-
 }
+
+/*        if (BuildConfig.DEBUG){
+        Log.i("GUMSBLO", "choixSortie = "+choixSortie);
+        Log.i("GUMSBLO", "DATERV = "+mesPrefs.getString(DATERV, ""));
+        Log.i("GUMSBLO", "peremption =  "+Aux.datePast(mesPrefs.getString(DATERV,""), 1));} */

@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity  {
     Button boutonPark = null;
     Button boutonRdV = null;
     SharedPreferences mesPrefs;
+    SharedPreferences.Editor editeur;
     final static String PREF_FILE = "mesInfos";
     ProgressBar patience = null;
     static final String LIEU = "title";
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity  {
 // récupérer le context et donc en particulier les préférences de n'importe où en récupérant l'instance sans avoir
 //   à passer de contexte
         mesPrefs =  MyHelper.getInstance(getApplicationContext()).recupPrefs();
-        SharedPreferences.Editor editeur = mesPrefs.edit();
+        editeur = mesPrefs.edit();
 // initialiser le choix d'appli de navigation à "ne pas offrir le choix"
         if(!mesPrefs.contains("chooser")){
             editeur.putString("chooser", "no");
@@ -119,25 +120,20 @@ public class MainActivity extends AppCompatActivity  {
 
 //initialise le flag "automatique" our choix de sortie
         editeur.putBoolean("auto", true);
+        editeur.putString("sortiechoisie", null);
         editeur.apply();
 
-// récup intent if any pour choix de sortie
+// récup intent de démarrage
         Intent intent = getIntent();
-        if (intent != null) {
-            if (intent.hasExtra("sortie")){
-                sortieChoisie = intent.getStringExtra("sortie");
-                editeur.putBoolean("auto", sortieChoisie.isEmpty());
-                editeur.putString(DATERV, "2000-01-01");
-                editeur.putString("sortiechoisie", sortieChoisie);
-                editeur.apply();
-            }
-        }
+        handleIntent(intent);
 
 // patience est un cercle qui tourne jusqu'à disponibilité des infos pour faire patienter le client...
         patience.setVisibility(View.VISIBLE);
 
 // instanciation ou récupération du ViewModel qui gère les données
         manipsInfo = new ViewModelProvider(this).get(ModelBleauInfo.class);
+//        if (BuildConfig.DEBUG) Log.i("GUMSBLO", "getinfo 1 =");
+        manipsInfo.trouverInfos();
 
 // création de l'observateur et établissement du lien de l'observateur avec la LiveData du flag
         final Observer<String> flagObserver = newFlag -> {
@@ -287,13 +283,38 @@ public class MainActivity extends AppCompatActivity  {
         }
         super.onPause();
     }
-// à partir de là on surveille la disponibilité d'Internet
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (BuildConfig.DEBUG) Log.i("GUMSBLO", "in onNewIntent");
+        // getIntent() should always return the most recent
+        handleIntent(intent);
+    }
+
+    // à partir de là on surveille la disponibilité d'Internet
     @Override
     protected void onResume(){
         super.onResume();
         if (BuildConfig.DEBUG) Log.i("GUMSBLO", "onresume register");
         connectionMonitor.registerDefaultNetworkCallback();
         Variables.isRegistered=true;
+    }
+
+    protected void handleIntent(Intent intent) {
+        if (intent != null) {
+//            if (BuildConfig.DEBUG) Log.i("GUMSBLO", "main intent reçu "+intent);
+            if (intent.hasExtra("sortie")){
+                sortieChoisie = intent.getStringExtra("sortie");
+                if (BuildConfig.DEBUG) Log.i("GUMSBLO", "main intent extra "+sortieChoisie);
+                editeur.putBoolean("auto", sortieChoisie.isEmpty());
+                editeur.putString(DATERV, "2000-01-01");
+                editeur.putString("sortiechoisie", sortieChoisie);
+                editeur.commit();
+//                if (BuildConfig.DEBUG) Log.i("GUMSBLO", "getinfo 2 =");
+                manipsInfo.trouverInfos();
+            }
+        }
     }
 
     //affichage dialogue d'alerte si problème de disponibilité des infos

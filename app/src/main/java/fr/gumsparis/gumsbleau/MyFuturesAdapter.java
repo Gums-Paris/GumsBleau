@@ -24,6 +24,7 @@ public class MyFuturesAdapter extends RecyclerView.Adapter<MyFuturesAdapter.MyVi
     final RecyclerViewClickListener listener;
     Resources resources;
 
+// constructeur
     MyFuturesAdapter(Context context, ArrayList<Sortie> laListe, RecyclerViewClickListener mlistener) {
         mInflater = LayoutInflater.from(context);
         this.lesData = laListe;
@@ -31,6 +32,7 @@ public class MyFuturesAdapter extends RecyclerView.Adapter<MyFuturesAdapter.MyVi
         resources = MyHelper.getInstance().recupResources();
     }
 
+// le viewholder
     static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textView;
         final MyFuturesAdapter mAdapter;
@@ -50,6 +52,7 @@ public class MyFuturesAdapter extends RecyclerView.Adapter<MyFuturesAdapter.MyVi
         }
     }
 
+//les trois méthodes de l'adapter
     @NonNull
     @Override
     public MyFuturesAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

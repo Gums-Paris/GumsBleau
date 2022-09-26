@@ -74,11 +74,12 @@ public class ListFutures extends AppCompatActivity {
             if (newListe != null) {
                 RecyclerViewClickListener listener = (view, position) -> {
                     String  idSortie = newListe.get(position).getNumArticle();
-                    Intent choisi = new Intent(this, MainActivity.class);
+                    Intent choisi = new Intent(ListFutures.this, MainActivity.class);
                     choisi.putExtra("sortie", idSortie);
-                    this.startActivity(choisi);
+                    if (BuildConfig.DEBUG) Log.i("GUMSBLO", "intent envoyé futur "+choisi);
+                    ListFutures.this.startActivity(choisi);
                 };
-                MyFuturesAdapter adapter = new MyFuturesAdapter(getApplicationContext(), newListe, listener);
+                MyFuturesAdapter adapter = new MyFuturesAdapter(ListFutures.this, newListe, listener);
                 recyclerView.setAdapter(adapter);
             }
         };
