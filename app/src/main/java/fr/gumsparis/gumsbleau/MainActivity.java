@@ -2,6 +2,7 @@ package fr.gumsparis.gumsbleau;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.view.WindowCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -72,6 +74,11 @@ public class MainActivity extends AppCompatActivity  {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+ /*       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
+            HandleInsets.placeInsets(this, toolbar);
+        }
+*/
         lieuSortie = findViewById(R.id.lieusortie);
         dateSortie = findViewById(R.id.datesortie);
         parking = findViewById(R.id.itipark);
