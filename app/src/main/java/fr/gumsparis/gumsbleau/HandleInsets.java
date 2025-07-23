@@ -6,31 +6,32 @@ import android.view.View;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public final class HandleInsets {
-    static int topInset, bottomInset = 30;
-    private HandleInsets() {}
-    public static void placeInsets(Activity activity, Toolbar toolbar) {
+   static Insets myInsets;
+    private HandleInsets() {};
+    public static void placeInsets(Activity activity, View conteneur) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Window window = activity.getWindow();
             window.setDecorFitsSystemWindows(false);
-            ViewCompat.setOnApplyWindowInsetsListener(toolbar, new OnApplyWindowInsetsListener() {
+            ViewCompat.setOnApplyWindowInsetsListener(conteneur, new OnApplyWindowInsetsListener() {
                 @NonNull
                 @Override
-                public WindowInsetsCompat onApplyWindowInsets(@NonNull View toolbar, @NonNull WindowInsetsCompat insets) {
-                    topInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
-                    toolbar.setPadding(10,topInset,10,20);
+                public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                    myInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    v.setPadding(
+                            myInsets.left,
+                            myInsets.top,
+                            myInsets.right,
+                            myInsets.bottom);
                     return (insets);
                 }
             });
-            //        toolbar.setPadding(0,topInset, 0,0);
-            //       return insets;
-            ViewCompat.requestApplyInsets(toolbar);
         }
+        ViewCompat.requestApplyInsets(conteneur);
     }
-
 }

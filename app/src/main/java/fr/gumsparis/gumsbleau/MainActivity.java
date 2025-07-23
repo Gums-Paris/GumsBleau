@@ -1,11 +1,18 @@
 package fr.gumsparis.gumsbleau;
 
+import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +29,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -63,6 +71,8 @@ public class MainActivity extends AppCompatActivity  {
     NetworkConnectionMonitor connectionMonitor;
     File mFile = null;
     static final private String LATLON_RV = "latlon.gpx";
+    View conteneur =null;
+
 
 // TODO
 //  rien en cours
@@ -73,12 +83,12 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
- /*       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
-            HandleInsets.placeInsets(this, toolbar);
+        conteneur = findViewById(R.id.home);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            EdgeToEdge.enable(this);
+            HandleInsets.placeInsets(this, conteneur);
         }
-*/
+
         lieuSortie = findViewById(R.id.lieusortie);
         dateSortie = findViewById(R.id.datesortie);
         parking = findViewById(R.id.itipark);
