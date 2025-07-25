@@ -1,10 +1,12 @@
 package fr.gumsparis.gumsbleau;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -25,12 +27,19 @@ public class ChoixSortie extends AppCompatActivity {
     private RecyclerView.Adapter<MyAdapter.MyViewHolder> monAdapter;
     ProgressBar attente = null;
     NetworkConnectionMonitor connectionMonitor;
+    View conteneur =null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_sortie);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        conteneur = findViewById(R.id.sortie);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            EdgeToEdge.enable(this);
+            //     statusBarColor(conteneur,R.color.colorPrimaryDark);
+            HandleInsets.placeInsets(this, conteneur);
+        }
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

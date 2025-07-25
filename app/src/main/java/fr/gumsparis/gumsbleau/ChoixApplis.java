@@ -1,12 +1,15 @@
 package fr.gumsparis.gumsbleau;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -29,6 +32,7 @@ public class ChoixApplis extends AppCompatActivity {
     RadioButton orx = null;
     RadioButton komt = null;
     Button terminer = null;
+    View conteneur =null;
 
 
     @Override
@@ -37,6 +41,12 @@ public class ChoixApplis extends AppCompatActivity {
         setContentView(R.layout.activity_choix_applis);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        conteneur = findViewById(R.id.choose);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            EdgeToEdge.enable(this);
+            //     statusBarColor(conteneur,R.color.colorPrimaryDark);
+            HandleInsets.placeInsets(this, conteneur);
+        }
 
         SharedPreferences mesPrefs = MyHelper.getInstance().recupPrefs();
         final SharedPreferences.Editor  editeur = mesPrefs.edit();

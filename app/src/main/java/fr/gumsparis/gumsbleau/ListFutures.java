@@ -1,6 +1,7 @@
 package fr.gumsparis.gumsbleau;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -24,11 +26,18 @@ public class ListFutures extends AppCompatActivity {
     ProgressBar attente = null;
     NetworkConnectionMonitor connectionMonitor;
     TextView affichage = null;
+    View conteneur =null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_futures);
         Toolbar toolbar = findViewById(R.id.toolbarFutur);
+        conteneur = findViewById(R.id.future);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            EdgeToEdge.enable(this);
+            //     statusBarColor(conteneur,R.color.colorPrimaryDark);
+            HandleInsets.placeInsets(this, conteneur);
+        }
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {

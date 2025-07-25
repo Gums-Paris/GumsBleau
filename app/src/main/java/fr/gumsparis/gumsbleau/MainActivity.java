@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -83,9 +84,11 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+ //Adaptation au fonctionnement EdgeToEdge
         conteneur = findViewById(R.id.home);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             EdgeToEdge.enable(this);
+       //     statusBarColor(conteneur,R.color.colorPrimaryDark);
             HandleInsets.placeInsets(this, conteneur);
         }
 
@@ -290,6 +293,18 @@ public class MainActivity extends AppCompatActivity  {
         });
 
     }  // end onCreate
+   // la méthode statusBarColor ne fonctionne pas. Ne fait rien
+    void statusBarColor(View conteneur, int color){
+        ViewCompat.setOnApplyWindowInsetsListener(conteneur, new OnApplyWindowInsetsListener() {
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                 insets.getInsets(WindowInsetsCompat.Type.statusBars());
+                v.setBackgroundColor(color);
+                return(insets);
+            }
+        } );
+
+
+     }
 
     @Override
     protected void onPause(){

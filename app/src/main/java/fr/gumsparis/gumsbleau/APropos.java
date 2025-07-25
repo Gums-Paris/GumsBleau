@@ -1,15 +1,19 @@
 package fr.gumsparis.gumsbleau;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.view.View;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class APropos extends AppCompatActivity {
 
     TextView affichage = null;
+    View conteneur =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +21,12 @@ public class APropos extends AppCompatActivity {
         setContentView(R.layout.activity_apropos);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        conteneur = findViewById(R.id.about);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            EdgeToEdge.enable(this);
+            //     statusBarColor(conteneur,R.color.colorPrimaryDark);
+            HandleInsets.placeInsets(this, conteneur);
+        }
 
         affichage = findViewById(R.id.legums);
         affichage.setText(Aux.fromHtml(getString(R.string.aproposdugums)));
