@@ -17,7 +17,7 @@ public final class HandleInsets {
     // HandleInsets sert à mettre des protections dans une fonctionnement EdgeToEdge pour que les commandes
     // de la barre d'appli ne soient pas masquées par la barre d'état
 
-   static Insets myInsets;
+   static Insets myInsets, insetsDecoup;
     private HandleInsets() {};
     public static void placeInsets(Activity activity, View conteneur) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -28,6 +28,7 @@ public final class HandleInsets {
                 @Override
                 public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
                     myInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    insetsDecoup = insets.getInsets(WindowInsetsCompat.Type.displayCutout());
                /*   Je n'arrive pas à changer la couleur de statusBar
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

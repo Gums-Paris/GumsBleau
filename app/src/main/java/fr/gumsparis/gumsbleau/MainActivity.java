@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity  {
     File mFile = null;
     static final private String LATLON_RV = "latlon.gpx";
     View conteneur =null;
+    Insets insetsDecoup;
 
 
 // TODO
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity  {
         setSupportActionBar(toolbar);
  //Adaptation au fonctionnement EdgeToEdge
         conteneur = findViewById(R.id.home);
-                      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             EdgeToEdge.enable(this);
        //     statusBarColor(conteneur,R.color.colorPrimaryDark);
             HandleInsets.placeInsets(this, conteneur);
